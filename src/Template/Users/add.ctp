@@ -18,7 +18,7 @@
             echo $this->Form->input('role');
             echo $this->Form->input('firstname');
             echo $this->Form->input('name');
-            echo $this->Form->input('email');
+            echo $this->Form->input('email', ['required'=>false]);
             echo $this->Form->input('phone');
             echo $this->Form->input('description');
         ?>
