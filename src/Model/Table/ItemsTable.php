@@ -96,4 +96,12 @@ class ItemsTable extends Table
 
         return $rules;
     }
+
+
+    public function findCategory(Query $query, array $options)
+    {
+      $query = $this->find()->where(['category_id =' => $options['category_id']]);
+      return $query;
+
+    }
 }
