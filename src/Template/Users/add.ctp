@@ -21,6 +21,7 @@
             echo $this->Form->input('email', ['required'=>false]);
             echo $this->Form->input('phone');
             echo $this->Form->input('description');
+            echo $this->Form->input('camp_id', ['options' => $camps]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
