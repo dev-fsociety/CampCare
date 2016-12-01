@@ -54,13 +54,15 @@
 
     <div class="large-9 columns">
 
+      <!--   <?= debug($camp) ?>
+ -->
         <h4> Categories for this camp </h4>
 
         <ul>
 
             <?php foreach($camp->categories as $category): ?>
 
-                <li> <?= h($category->name) ?></li>
+                <li> <?= h($category->name) ?> <?= $this->Form->postLink(__('Delete'), ['controller' => 'Categories', 'action' => 'delete', $category->id], ['confirm' => __('Are you sure you want to delete : {0}?', $category->name)]) ?></li>
 
             <?php endforeach; ?>
 
