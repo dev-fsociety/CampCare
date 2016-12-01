@@ -44,6 +44,15 @@ class PostsController extends AppController
         $this->set('_serialize', ['post']);
     }
 
+    public function byCategory($category_id) {
+        $posts = $this->Posts->find()->where(['category_id' => $category_id]);
+        $category = $this->Posts->Categories->get($category_id);
+
+        $this->set('posts', $posts);
+        $this->set('category', $category);
+        $this->set('_serialize', ['posts']);
+    }
+
     /**
      * Add method
      *
