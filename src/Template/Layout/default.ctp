@@ -29,6 +29,13 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->Html->css('base.css') ?>
     <?= $this->Html->css('cake.css') ?>
 
+    <!--  Add Foundation  -->
+    <?= $this->Html->css('foundation.css') ?>
+
+    <?= $this->Html->script('vendor/jquery') ?>
+    <?= $this->Html->script('vendor/foundation.min') ?>
+    <?= $this->Html->script('vendor/what-input.min') ?>
+
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
@@ -42,7 +49,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </ul>
         <div class="top-bar-section">
             <ul class="right">
-                <li><a target="_blank" href="http://book.cakephp.org/3.0/">Documentation</a></li>
+                <li><a target="_blank" href="http://book.cakephp.org/3.0/">Doc</a></li>
                 <li><a target="_blank" href="http://api.cakephp.org/3.0/">API</a></li>
             </ul>
         </div>
