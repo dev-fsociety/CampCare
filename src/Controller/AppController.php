@@ -14,8 +14,8 @@
  */
 namespace App\Controller;
 
-use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\Controller\Controller;
 
 /**
  * Application Controller
@@ -44,6 +44,36 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
         $this->loadComponent('Security');
+        $this->loadComponent('Auth', [
+            'authenticate' => [
+                'Form' => [
+                    'fields' => [
+                        'username' => 'username',
+                        'password' => 'password'
+                    ]
+                ]
+            ],
+            'authorize' => 'Controller',
+            'loginAction' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ],
+            'loginRedirect' => [
+                'controller' => 'Categories',
+                'action' => 'index'
+            ],
+            'logoutRedirect' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ]
+        ]);
+
+        $this->Auth->deny();
+    }
+
+    public function isAuthorized($user)
+    {
+        return isset($user);
     }
 
     /**
@@ -59,5 +89,8 @@ class AppController extends Controller
         ) {
             $this->set('_serialize', true);
         }
+
+        if(isset($this->Auth))
+            $this->set('loggedUser', $this->Auth->user());
     }
 }
