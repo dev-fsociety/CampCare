@@ -84,11 +84,13 @@ class AppController extends Controller
      */
     public function beforeRender(Event $event)
     {
-        // $this->set('loggedUser', $this->Auth->user());
         if (!array_key_exists('_serialize', $this->viewVars) &&
             in_array($this->response->type(), ['application/json', 'application/xml'])
         ) {
             $this->set('_serialize', true);
         }
+
+        if(isset($this->Auth))
+            $this->set('loggedUser', $this->Auth->user());
     }
 }
