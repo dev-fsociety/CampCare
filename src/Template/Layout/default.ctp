@@ -39,6 +39,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->Html->script('vendor/jquery') ?>
     <?= $this->Html->script('vendor/foundation.min') ?>
     <?= $this->Html->script('vendor/what-input.min') ?>
+    <?= $this->Html->script('custom') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>

@@ -11,3 +11,63 @@
 
 
 
+
+/* ------ categories/index.ctp ------ */
+.square-container {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.square-container:after {
+	content: "";
+	display: block;
+	padding-bottom: 100%;
+}
+
+.square {
+	position: relative;
+	width: 90%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.square-color0 {
+	background: #C02942;
+}
+.square-color1 {
+	background: #D95B43;
+}
+.square-color2 {
+	background: #ECD078;
+}
+.square-color3 {
+	background: #53777A;
+}
+
+.square-color0:hover {
+	background: #a8243a;
+}
+.square-color1:hover {
+	background: #be4027;
+}
+.square-color2:hover {
+	background: #e6c24d;
+}
+.square-color3:hover {
+	background: #3e595b;
+}
+
+
+
+.square:after {
+	content: "";
+	display: block;
+	padding-bottom: 100%;
+}
+
+.square-content {
+	color: #fff;
+}
