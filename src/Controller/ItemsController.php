@@ -123,7 +123,7 @@ class ItemsController extends AppController
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function list($category_id = null){
+    public function byCategory($category_id = null){
         $items = $this->Items->find('category', [
           'category_id' => $category_id
         ]);
