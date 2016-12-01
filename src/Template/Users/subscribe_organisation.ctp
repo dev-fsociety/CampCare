@@ -1,4 +1,4 @@
-<div class="log-in-form medium-6 medium-centered large-4 large-centered columns">    
+<div class="log-in-form medium-6 medium-centered large-4 large-centered columns">
     <?= $this->Form->create($user) ?>
     <fieldset>
         <h4 class="text-center"> Register an organisation </h4>
@@ -12,8 +12,6 @@
             echo $this->Form->input('description',['required'=>false]);
         ?>
     </fieldset>
-    <a type="submit" class="button expanded">
-      <?= $this->Form->button(__('Submit')) ?>
-    </a>
+    <?= $this->Form->submit(__('Submit'), ['class' => 'button']) ?>
     <?= $this->Form->end() ?>
 </div>
