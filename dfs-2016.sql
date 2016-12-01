@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 01, 2016 at 07:33 PM
+-- Generation Time: Dec 01, 2016 at 09:45 PM
 -- Server version: 5.6.30-1
 -- PHP Version: 7.0.12-1
 
@@ -112,13 +112,21 @@ CREATE TABLE `users` (
   `username` varchar(64) COLLATE utf8_bin NOT NULL,
   `password` varchar(255) COLLATE utf8_bin NOT NULL,
   `role` int(11) NOT NULL COMMENT '0=Orga; 1=Donor; 2=refugee',
-  `firstname` varchar(100) COLLATE utf8_bin NOT NULL,
-  `name` varchar(100) COLLATE utf8_bin NOT NULL,
-  `email` varchar(255) COLLATE utf8_bin NOT NULL,
-  `phone` varchar(20) COLLATE utf8_bin NOT NULL,
-  `description` text COLLATE utf8_bin NOT NULL,
-  `created` date NOT NULL
+  `firstname` varchar(100) COLLATE utf8_bin DEFAULT NULL,
+  `name` varchar(100) COLLATE utf8_bin DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `phone` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `description` text COLLATE utf8_bin,
+  `created` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `role`, `firstname`, `name`, `email`, `phone`, `description`, `created`) VALUES
+(9, 'MSF', '$2y$10$2yDqxbHOB2.5fnOPHT50xOQgFIo1js5ewuppPuSq/IInvuRrwLyFq', 0, '', '', '', '', '', '2016-12-01'),
+(10, 'test', '$2y$10$PUOW4Ew6LcMSm3l/o/i//OhV6MgMcumCSJ4NJHC5uMF61QLXPVRSG', 0, '', '', 'caca@gmail.com', '', '', '2016-12-01');
 
 --
 -- Indexes for dumped tables
@@ -204,7 +212,7 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
