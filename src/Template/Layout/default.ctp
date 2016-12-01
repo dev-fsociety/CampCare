@@ -26,40 +26,57 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </title>
     <?= $this->Html->meta('icon') ?>
 
-    <?= $this->Html->css('base.css') ?>
-    <?= $this->Html->css('cake.css') ?>
+<!--     <?= $this->Html->css('base.css') ?>
+    <?= $this->Html->css('cake.css') ?> -->
 
     <!--  Add Foundation  -->
     <?= $this->Html->css('foundation.css') ?>
     <?= $this->Html->css('custom.css') ?>
 
-    <?= $this->Html->script('vendor/jquery') ?>
-    <?= $this->Html->script('vendor/foundation.min') ?>
-    <?= $this->Html->script('vendor/what-input.min') ?>
-
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 </head>
-<body>
-    <nav class="top-bar expanded" data-topbar role="navigation">
-        <ul class="title-area large-3 medium-4 columns">
-            <li class="name">
-                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
-            </li>
-        </ul>
-        <div class="top-bar-section">
-            <ul class="right">
-                <li><a target="_blank" href="http://book.cakephp.org/3.0/">Doc</a></li>
-                <li><a target="_blank" href="http://api.cakephp.org/3.0/">API</a></li>
-            </ul>
+<body>   
+
+    <div class="top-bar-container" data-sticky-container>
+      <div class="sticky" data-sticky data-options="anchor: page; marginTop: 0; stickyOn: small;">
+        <div class="top-bar">
+          <div class="top-bar-title">
+            <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
+              <button class="menu-icon dark" type="button" data-toggle></button>
+            </span>
+            <strong>Our Project</strong>
+          </div>
+          <div id="responsive-menu">
+            <div class="top-bar-left">
+            </div>
+            <div class="top-bar-right">
+              <ul class="menu">
+                <li><a href="">Profil</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
-    </nav>
+      </div>
+    </div>
+
+
     <?= $this->Flash->render() ?>
     <div class="container clearfix">
         <?= $this->fetch('content') ?>
     </div>
     <footer>
     </footer>
+
+    <!-- JS Calls -->
+    <?= $this->Html->script('vendor/jquery') ?>
+    <?= $this->Html->script('vendor/what-input.min') ?>
+    <?= $this->Html->script('vendor/foundation') ?>
+    
+
+    <script>$(document).foundation();</script>
+    
+
 </body>
 </html>
