@@ -2,3 +2,4 @@
 /config/app.php
 /tmp/*
 /logs/*
+/src/Template/Error/error400.ctp.old
