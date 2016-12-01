@@ -5,12 +5,11 @@
         <?php
             echo $this->Form->input('username');
             echo $this->Form->input('password');
-            echo $this->Form->input('role');
             echo $this->Form->input('firstname', ['required'=>false]);
             echo $this->Form->input('name');
             echo $this->Form->input('email', ['required'=>false]);
             echo $this->Form->input('phone', ['required'=>false]);
-            echo $this->Form->input('description');
+            echo $this->Form->input('description',['required'=>false]);
         ?>
     </fieldset>
     <a type="submit" class="button expanded">

@@ -32,7 +32,7 @@
             </a>
 
             <a type="submit" class="button">
-              <?= $this->Form->button(__('Donator')) ?>
+              <?= $this->Form->button(__('Donor')) ?>
             </a>
           
           </center>
