@@ -12,4 +12,27 @@
 	width: 100%;
 }
 
+.container{
+	min-height: 100%;
+}
 
+.topbar_logo{
+	height: 37px;
+}
+
+footer{
+	height: 25px;
+	background-color: #e6e6e6;
+}
+
+.copyright{
+	margin-left: 10px;
+}
+
+.profile_icon{
+	font-size: 40px;
+	color: #000;
+	text-decoration: none;
+	line-height: 0!important;
+	padding: 0!important;
+}

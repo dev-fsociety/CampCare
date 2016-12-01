@@ -13,7 +13,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
+$cakeDescription = 'CampCare';
 ?>
 <!DOCTYPE html>
 <html>
@@ -31,6 +31,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
     <!--  Add Foundation  -->
     <?= $this->Html->css('foundation.css') ?>
+    <?= $this->Html->css('icons/foundation-icons.css') ?>
     <?= $this->Html->css('custom.css') ?>
 
     <?= $this->fetch('meta') ?>
@@ -46,14 +47,14 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
               <button class="menu-icon dark" type="button" data-toggle></button>
             </span>
-            <strong>Our Project</strong>
+            <?= $this->Html->image('long_logo.png', array('class'=>'topbar_logo')); ?>
           </div>
           <div id="responsive-menu">
             <div class="top-bar-left">
             </div>
             <div class="top-bar-right">
               <ul class="menu">
-                <li><a href="">Profil</a></li>
+                <li><a href="#" class="profile_icon"><i class="fi-torso"></i></a></li>
               </ul>
             </div>
           </div>
@@ -67,6 +68,9 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <?= $this->fetch('content') ?>
     </div>
     <footer>
+
+    <span class="copyright">Copyright NDI - Team /dev/fsociety</span>
+
     </footer>
 
     <!-- JS Calls -->
