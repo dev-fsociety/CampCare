@@ -13,7 +13,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
+$cakeDescription = 'CampCare';
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,44 +26,61 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </title>
     <?= $this->Html->meta('icon') ?>
 
-    <?= $this->Html->css('base.css') ?>
-    <?= $this->Html->css('cake.css') ?>
-    
-    <!-- CSS Files --> 
-    <?= $this->Html->css('login.css') ?>
-
     <!--  Add Foundation  -->
     <?= $this->Html->css('foundation.css') ?>
+    <?= $this->Html->css('icons/foundation-icons.css') ?>
     <?= $this->Html->css('custom.css') ?>
-
-    <?= $this->Html->script('vendor/jquery') ?>
-    <?= $this->Html->script('vendor/foundation.min') ?>
-    <?= $this->Html->script('vendor/what-input.min') ?>
-    <?= $this->Html->script('custom') ?>
+    <?= $this->Html->css('login.css') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 </head>
 <body>
-    <nav class="top-bar expanded" data-topbar role="navigation">
-        <ul class="title-area large-3 medium-4 columns">
-            <li class="name">
-                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
-            </li>
-        </ul>
-        <div class="top-bar-section">
-            <ul class="right">
-                <li><a target="_blank" href="http://book.cakephp.org/3.0/">Doc</a></li>
-                <li><a target="_blank" href="http://api.cakephp.org/3.0/">API</a></li>
-            </ul>
+
+    <div class="top-bar-container" data-sticky-container>
+      <div class="sticky" data-sticky data-options="anchor: page; marginTop: 0; stickyOn: small;">
+        <div class="top-bar">
+          <div class="top-bar-title">
+            <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
+              <button class="menu-icon dark" type="button" data-toggle></button>
+            </span>
+            <a href=""><?= $this->Html->image('long_logo.png', array('class'=>'topbar_logo')); ?></a>
+          </div>
+          <div id="responsive-menu">
+            <div class="top-bar-left">
+            </div>
+            <div class="top-bar-right">
+              <ul class="menu">
+                <li><a href="#" class="profile_icon"><i class="fi-torso"></i></a></li>
+              </ul>
+            </div>
+          </div>
         </div>
-    </nav>
+      </div>
+    </div>
+
+
     <?= $this->Flash->render() ?>
     <div class="container clearfix">
         <?= $this->fetch('content') ?>
     </div>
     <footer>
+
+    <span class="copyright">Copyright NDI - Team /dev/fsociety</span>
+
     </footer>
+
+    <!-- JS Calls -->
+    <?= $this->Html->script('vendor/jquery') ?>
+    <?= $this->Html->script('vendor/what-input') ?>
+    <?= $this->Html->script('vendor/foundation') ?>
+    <?= $this->Html->script('custom') ?>
+
+
+
+    <script>$(document).foundation();</script>
+
+
 </body>
 </html>

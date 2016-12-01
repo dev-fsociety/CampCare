@@ -4,7 +4,13 @@
 <?php foreach ($categories as $category): ?>
 	<!-- if right camp -->
 	<?php $sclass = "square square-color" . (string)($counter%4) ?>
-	<div class="column text-center square-container"><a class="<?php echo $sclass; ?>" href="#"><div class="square-content"><?= h($category->name) ?></div></a></div>
+	<div class="column text-center square-container">
+		<a class="<?php echo $sclass; ?>" href=<?php echo "view/" . $sclass; ?>>
+			<div class="square-content">
+				<?= h($category->name) ?>
+			</div>
+		</a>
+	</div>
 	<?php $counter++;?>
 <?php endforeach; ?>
 </div>

@@ -8,6 +8,35 @@
 
 /* ------ default.ctp ------- */
 
+.sticky{
+	width: 100%;
+}
+
+.container{
+	min-height: 100%;
+}
+
+.topbar_logo{
+	height: 37px;
+}
+
+footer{
+	height: 25px;
+	background-color: #e6e6e6;
+}
+
+.copyright{
+	margin-left: 10px;
+}
+
+.profile_icon{
+	font-size: 40px;
+	color: #000;
+	text-decoration: none;
+	line-height: 0!important;
+	padding: 0!important;
+}
+
 /* ------ Global Styles ------- */
 
 h1 {
@@ -26,18 +55,22 @@ h1 {
 	margin-top: 2%;
 }
 
-.square-container:after {
-	content: "";
-	display: block;
-	padding-bottom: 100%;
-}
-
 .square {
 	position: relative;
 	width: 90%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.square:after {
+	content: "";
+	display: block;
+	padding-bottom: 100%;
+}
+
+.square-content {
+	color: #fff;
 }
 
 .square-color0 {
@@ -65,17 +98,6 @@ h1 {
 .square-color3:hover {
 	background: #3e595b;
 }
-
-.square:after {
-	content: "";
-	display: block;
-	padding-bottom: 100%;
-}
-
-.square-content {
-	color: #fff;
-}
-
 
 /* ------ posts/by_category.ctp ------ */
 
