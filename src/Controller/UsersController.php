@@ -108,4 +108,38 @@ class UsersController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function login()
+    {
+        $user = $this->Users->newEntity();
+
+        if($this->request->is('post'))
+        {
+            $user = $this->Auth->identify();
+
+            if($user)
+            {
+                $this->Auth->setUser($user);
+                return $this->redirect($this->Auth->redirectUrl());
+            }
+
+            $this->Flash->error('Your username or password is incorrect.');
+        }
+
+        $this->set(compact('user'));
+        $this->set('_serialize', ['user']);
+    }
+
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->Auth->allow(['logout']);
+    }
+
+    public function logout()
+    {
+        $this->Flash->success('You are now logged out.');
+        $this->redirect($this->Auth->logout());
+    }
 }
