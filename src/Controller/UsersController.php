@@ -274,6 +274,23 @@ class UsersController extends AppController
         $this->Auth->allow(['logout', 'subscribeRefugee', 'subscribeDonor']);
     }
 
+    public function isAuthorized($user)
+    {
+        if(isset($user))
+        {
+            if(in_array($this->request->action, ['edit', 'delete', 'view']))
+            {
+                if((int)$this->request->params['pass'][0] === $user['id'])
+                {
+                    return true;
+                }
+            }
+        }
+
+
+        return parent::isAuthorized($user);
+    }
+
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
