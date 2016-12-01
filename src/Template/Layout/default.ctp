@@ -34,6 +34,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
     <!--  Add Foundation  -->
     <?= $this->Html->css('foundation.css') ?>
+    <?= $this->Html->css('custom.css') ?>
 
     <?= $this->Html->script('vendor/jquery') ?>
     <?= $this->Html->script('vendor/foundation.min') ?>

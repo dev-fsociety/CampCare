@@ -18,8 +18,9 @@
         <legend><?= __('Add Category') ?></legend>
         <?php
             echo $this->Form->input('name');
-            echo $this->Form->input('category_id');
-            echo $this->Form->input('camp_id', ['options' => $camps]);
+            echo $this->Form->input('category_id', [ 'options' => $categories, 'empty' => true]);
+            echo $this->Form->hidden('camp_id', ['type' => 'number' , 'default' => $camp]);
+
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
