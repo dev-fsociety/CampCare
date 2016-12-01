@@ -14,8 +14,8 @@
  */
 namespace App\Controller;
 
-use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\Controller\Controller;
 
 /**
  * Application Controller
@@ -53,14 +53,27 @@ class AppController extends Controller
                     ]
                 ]
             ],
+            'authorize' => 'Controller',
             'loginAction' => [
                 'controller' => 'Users',
                 'action' => 'login'
             ],
-            'unauthorizedRedirect' => $this->referer()
+            'loginRedirect' => [
+                'controller' => 'Categories',
+                'action' => 'index'
+            ],
+            'logoutRedirect' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ]
         ]);
 
-        $this->Auth->allow(['display']);
+        $this->Auth->deny();
+    }
+
+    public function isAuthorized($user)
+    {
+        return isset($user);
     }
 
     /**

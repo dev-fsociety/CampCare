@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use Cake\Event\Event;
 use App\Controller\AppController;
 
 /**
@@ -251,8 +252,6 @@ class UsersController extends AppController
 
     public function login()
     {
-        $user = $this->Users->newEntity();
-
         if($this->request->is('post'))
         {
             $user = $this->Auth->identify();
@@ -260,21 +259,25 @@ class UsersController extends AppController
             if($user)
             {
                 $this->Auth->setUser($user);
+                $this->Flash->success('Your are now logged in.');
                 return $this->redirect($this->Auth->redirectUrl());
             }
 
             $this->Flash->error('Your username or password is incorrect.');
         }
-
-        $this->set(compact('user'));
-        $this->set('_serialize', ['user']);
     }
 
     public function initialize()
     {
         parent::initialize();
 
-        $this->Auth->allow(['logout']);
+        $this->Auth->allow(['logout', 'subscribeRefugee', 'subscribeDonor']);
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['logout', 'subscribeRefugee', 'subscribeDonor']);
     }
 
     public function logout()
