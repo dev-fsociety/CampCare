@@ -1,3 +1,4 @@
+<h1 class="text-center" style="color: #444; margin-top: 3%;">Please select a category below</h1>
 <div class="row small-up-2 medium-up-3 large-up-4">
 <?php $counter = 0;?>
 <?php foreach ($categories as $category): ?>
