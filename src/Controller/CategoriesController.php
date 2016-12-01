@@ -62,8 +62,12 @@ class CategoriesController extends AppController
                 $this->Flash->error(__('The category could not be saved. Please, try again.'));
             }
         }
-        $camps = $this->Categories->Camps->find('list', ['limit' => 200]);
-        $this->set(compact('category', 'camps'));
+
+        //TODO
+        // $camp =  ... Recupérer le camp_id de l'utilisateur ici
+        $camp = 1;
+        $categories = $this->Categories->find('list', ['limit' => 200]);
+        $this->set(compact('category', 'camp', 'categories'));
         $this->set('_serialize', ['category']);
     }
 
