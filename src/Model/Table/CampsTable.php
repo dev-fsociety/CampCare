@@ -39,6 +39,10 @@ class CampsTable extends Table
         $this->hasMany('Categories', [
             'foreignKey' => 'camp_id'
         ]);
+
+        $this->hasMany('Users', [
+          'foreignKey' => 'camp_id'
+        ]);
     }
 
     /**

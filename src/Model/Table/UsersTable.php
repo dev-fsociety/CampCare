@@ -47,6 +47,10 @@ class UsersTable extends Table
         $this->hasMany('Offers', [
             'foreignKey' => 'user_id'
         ]);
+
+        $this->belongsTo('Camps', [
+          'foreignKey' => 'camp_id'
+        ]);
     }
 
     /**

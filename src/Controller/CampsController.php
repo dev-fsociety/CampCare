@@ -37,7 +37,9 @@ class CampsController extends AppController
             'contain' => ['Categories']
         ]);
 
-        $this->set('camp', $camp);
+        $refugee_count = $this->Camps->Users->find()->where(['camp_id' => $id, 'role' => 2])->count();
+
+        $this->set(compact('camp', 'refugee_count'));
         $this->set('_serialize', ['camp']);
     }
 

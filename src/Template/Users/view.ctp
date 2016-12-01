@@ -50,6 +50,10 @@
             <th scope="row"><?= __('Created') ?></th>
             <td><?= h($user->created) ?></td>
         </tr>
+        <tr>
+            <th scope="row"><?= __('Camp_id') ?></th>
+            <td><?= h($user->camp_id) ?></td>
+        </tr>
     </table>
     <div class="row">
         <h4><?= __('Description') ?></h4>
