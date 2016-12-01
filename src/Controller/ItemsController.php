@@ -18,7 +18,8 @@ class ItemsController extends AppController
      */
     public function index()
     {
-        $items = $this->paginate($this->Items->find()->order(['hot' => 'DESC']));
+        $items = $this->paginate($this->Items->find()->contain(['Categories'])
+        ->order(['hot' => 'DESC']));
 
         $this->set(compact('items'));
         $this->set('_serialize', ['items']);
