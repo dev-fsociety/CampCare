@@ -28,6 +28,6 @@
             echo $this->Form->input('cooldown');
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->submit(__('Submit'), ['class' => 'button']) ?>
     <?= $this->Form->end() ?>
 </div>
