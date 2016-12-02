@@ -49,7 +49,7 @@ class OffersController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($user_id)
     {
         $offer = $this->Offers->newEntity();
         if ($this->request->is('post')) {
@@ -57,13 +57,14 @@ class OffersController extends AppController
             if ($this->Offers->save($offer)) {
                 $this->Flash->success(__('The offer has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'Users', 'action' => 'view', $offer->user_id]);
             } else {
                 $this->Flash->error(__('The offer could not be saved. Please, try again.'));
             }
         }
-        $users = $this->Offers->Users->find('list', ['limit' => 200]);
+
         $items = $this->Offers->Items->find('list', ['limit' => 200]);
+        $offer->user_id = $user_id;
         $this->set(compact('offer', 'users', 'items'));
         $this->set('_serialize', ['offer']);
     }
@@ -85,7 +86,7 @@ class OffersController extends AppController
             if ($this->Offers->save($offer)) {
                 $this->Flash->success(__('The offer has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'Users', 'action' => 'view', $offer->user_id]);
             } else {
                 $this->Flash->error(__('The offer could not be saved. Please, try again.'));
             }
@@ -113,6 +114,37 @@ class OffersController extends AppController
             $this->Flash->error(__('The offer could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['controller' => 'Users', 'action' => 'view', $offer->user_id]);
+    }
+
+    public function isAuthorized($user)
+    {
+        if(isset($user))
+        {
+            if($user['role'] === 0 || $user['role'] === 1)
+            {
+                if(in_array($this->request->action, ['edit', 'delete']) && (int)$this->request->params['pass'][0] === $user['id'])
+                {
+                    return true;
+                }
+
+                if(in_array($this->request->action, ['add']))
+                {
+                    return true;
+                }
+            }
+            
+            if(in_array($this->request->action, ['view', 'index']))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function initialize()
+    {
+        parent::initialize();
     }
 }

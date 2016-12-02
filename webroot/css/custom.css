@@ -288,6 +288,14 @@ div.message.hidden {
     height: 0;
 }
 
+div.view-offer {
+		margin-top: 15%;
+		margin-bottom: 15%;
+		background-color: #DEDEDE;
+		border-radius: 10px;
+		padding: 20px 10px;
+}
+
 #campLink {
   text-align: right;
   margin-bottom: 15px;
