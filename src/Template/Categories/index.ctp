@@ -4,11 +4,25 @@
 	<!-- if right camp -->
 	<?php $sclass = "square square-color" . (string)($category->id-1)%4 ?>
 	<div class="column text-center square-container">
-		<a class="<?php echo $sclass; ?>" href=<?php echo "Categories/view/" . (string)$category->id; ?>>
-			<div class="square-content">
-				<?= h($category->name) ?>
-			</div>
-		</a>
+
+		<?=
+			 $this->Html->link(
+				'	<div class="square-content"> '.
+				h($category->name).
+				'</div>'
+				,
+			        [
+			            'controller' => 'categories',
+			            'action' => 'view',
+									$category->id
+			        ],
+							[
+								'escape' => false,
+								'class' => $sclass
+							]
+			    );
+		?>
+
 	</div>
 <?php endforeach; ?>
 </div>
