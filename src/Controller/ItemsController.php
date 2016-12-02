@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-
+use Cake\Datasource\ConnectionManager;
 /**
  * Items Controller
  *
@@ -60,18 +60,32 @@ class ItemsController extends AppController
                 $this->Flash->error(__('The item could not be saved. Please, try again.'));
             }
         }
+        // $sub_q = $this->Items->Categories->find()
+        //           ->select(['id'])
+        //           ->where(function ($exp, $q) {
+        //             return $exp->equalFields('Categories.id', 'Categories.category_id');
+        //           });
+        //
+        // $categories = $this->Items->Categories->find('list')->where(
+        //   function ($exp, $q) use ($sub_q) {
+        //     return $exp->NotExists($sub_q);
+        //     }
+        // );
+        $query = ConnectionManager::get('default')->execute('SELECT * FROM categories as a WHERE NOT EXISTS
+           (SELECT b.id FROM categories as b WHERE b.category_id = a.id)')->fetchAll('assoc');
 
-        $sub_q = $this->Items->find()
-                  ->select(['id'])
-                  ->where(function ($exp, $q) {
-                    return $exp->equalFields('Categories.id', 'Items.category_id');
-                  });
-
-        $categories = $this->Items->Categories->find('list')->where(
-          function ($exp, $q) use ($sub_q) {
-            return $exp->Exists($sub_q);
-            }
-        );
+        $categories;
+           foreach ($query as $key => $value) {
+             $id;
+             $name;
+             foreach ($value as $field => $data) {
+               if($field ==  'id')
+                  $id = $data;
+               if($field == 'name')
+                  $name = $data;
+             }
+             $categories[$id] = $name;
+           }
 
         $this->set(compact('item', 'categories'));
         $this->set('_serialize', ['item']);

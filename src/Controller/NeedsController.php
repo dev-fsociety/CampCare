@@ -2,6 +2,8 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Datasource\ConnectionManager;
+use Cake\I18n\Time;
 
 /**
  * Needs Controller
@@ -49,23 +51,46 @@ class NeedsController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($id=null)
     {
-        $need = $this->Needs->newEntity();
-        if ($this->request->is('post')) {
-            $need = $this->Needs->patchEntity($need, $this->request->data);
-            if ($this->Needs->save($need)) {
-                $this->Flash->success(__('The need has been saved.'));
+		$needs = $this->Needs->find()->where(['item_id' => $id, 'user_id' => $this->Auth->user('id')]);
+		$item = $this->Needs->Items->find()->where(['id' => $id]);
+		if (empty($needs->toArray()))
+		{
+        	$need = $this->Needs->newEntity();
+		}
+		else
+		{
+			if ((strtotime("now")- strtotime($needs->first()->created))/(3600*24) > $item->first()->cooldown)
+			{
+				$need = $this->Needs->newEntity();
+			}
+			else
+			{
+				$this->Flash->error('You are not authorized to add a need because you already did recently');
+			 	$this->redirect(['controller' => 'Categories' ,'action'=> 'index']);
+			}
+		}
+		if (isset($need))
+		{
+			ConnectionManager::get('default')->execute('UPDATE items SET hot=hot +1 WHERE id = :id',['id'=> $id]);
+			$data = ['user_id' => $this->Auth->user('id'), 'item_id' => $id, Time::now()];
+			$need = $this->Needs->patchEntity($need, $data);
+			if ($this->Needs->save($need)) 
+			{
+				$this->Flash->success(__('The need has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The need could not be saved. Please, try again.'));
-            }
-        }
-        $users = $this->Needs->Users->find('list', ['limit' => 200]);
-        $items = $this->Needs->Items->find('list', ['limit' => 200]);
-        $this->set(compact('need', 'users', 'items'));
-        $this->set('_serialize', ['need']);
+				return $this->redirect(['controller' => 'Categories', 'action' => 'index']);
+			}
+			else
+			{
+				$this->Flash->error(__('The need could not be saved. Please, try again.'));
+			}
+			$users = $this->Needs->Users->find('list', ['limit' => 200]);
+			$items = $this->Needs->Items->find('list', ['limit' => 200]);
+			$this->set(compact('need', 'users', 'items'));
+			$this->set('_serialize', ['need']);
+		}
     }
 
     /**
