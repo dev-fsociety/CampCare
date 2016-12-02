@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-
+use Cake\Datasource\ConnectionManager;
 /**
  * Camps Controller
  *
@@ -37,9 +37,24 @@ class CampsController extends AppController
             'contain' => ['Categories']
         ]);
 
+        // TODO SI on avait le skill..
+        // $sub_q = $this->Camps->Categories->find()
+        //           ->select(['id'])
+        //           ->where(function ($exp, $q) {
+        //             return $exp->equalFields($id, 'Categories.camp_id');
+        //           });
+        //
+        // $camp->needs = TableRegistry::get('Items')->find('list')->where(
+        //   function ($exp, $q) use ($sub_q) {
+        //     return $exp->Exists($sub_q);
+        //     }
+        // );
+        $items = ConnectionManager::get('default')->execute('SELECT * FROM items as a WHERE EXISTS
+          (SELECT b.id FROM categories as b WHERE b.camp_id = '. $id . ') ORDER BY a.hot DESC')->fetchAll('assoc');
+
         $refugee_count = $this->Camps->Users->find()->where(['camp_id' => $id, 'role' => 2])->count();
 
-        $this->set(compact('camp', 'refugee_count'));
+        $this->set(compact('camp', 'refugee_count','items'));
         $this->set('_serialize', ['camp']);
     }
 

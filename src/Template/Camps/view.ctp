@@ -71,7 +71,34 @@
             <?php endforeach; ?>
 
         </ul>
-        
+
+        <h4> Items for this camp </h4>
+        <ul>
+        <?php
+          foreach ($items as $key => $value) {
+              echo '<li>';
+              echo $value['name'];
+              echo '  ';
+              echo ' hot : ' . $value['hot'];
+              echo '  ';
+              echo $this->Html->link(__('<i class="fi-refresh"></i>'),
+                      [
+                          'controller' => 'Items',
+                          'action' => 'reset',
+                          $value['id']
+                      ],
+                      [
+                        'escape' => false
+                      ]
+                  );
+
+              echo '</li>';
+
+          }
+
+
+         ?>
+       </ul>
 
     </div>
     <div class="large-3 columns">
