@@ -7,27 +7,19 @@
                 ['confirm' => __('Are you sure you want to delete # {0}?', $category->id)]
             )
         ?></li>
-        <li><?= $this->Html->link(__('List Categories'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Camps'), ['controller' => 'Camps', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Camp'), ['controller' => 'Camps', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Categories'), ['controller' => 'Categories', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Category'), ['controller' => 'Categories', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Items'), ['controller' => 'Items', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Item'), ['controller' => 'Items', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Posts'), ['controller' => 'Posts', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Post'), ['controller' => 'Posts', 'action' => 'add']) ?></li>
     </ul>
 </nav>
-<div class="categories form large-9 medium-8 columns content">
+
+<div class="items form large-centered large-4 medium-3 medium-centered columns content">
     <?= $this->Form->create($category) ?>
     <fieldset>
-        <legend><?= __('Edit Category') ?></legend>
+        <h4><?= __('Edit Category') ?></h4>
         <?php
             echo $this->Form->input('name');
-            echo $this->Form->input('category_id');
-            echo $this->Form->input('camp_id', ['options' => $camps]);
+            echo $this->Form->input('category_id', ['options' => $categories, 'empty' => true]);
+            //echo $this->Form->input('camp_id', ['options' => $camps]);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Submit'),['class' => 'button expanded']) ?>
     <?= $this->Form->end() ?>
 </div>

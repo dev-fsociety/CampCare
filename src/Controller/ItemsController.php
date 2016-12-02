@@ -98,7 +98,7 @@ class ItemsController extends AppController
             if ($this->Items->save($item)) {
                 $this->Flash->success(__('The item has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller'=> 'Camps','action' => 'view', $this->Auth->user('camp_id')]);
             } else {
                 $this->Flash->error(__('The item could not be saved. Please, try again.'));
             }
@@ -125,7 +125,7 @@ class ItemsController extends AppController
             $this->Flash->error(__('The item could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['controller'=> 'Camps' ,'action' => 'view'],$this->Auth->user('camp_id') );
     }
 
     /**

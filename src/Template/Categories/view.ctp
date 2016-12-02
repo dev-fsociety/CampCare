@@ -8,11 +8,17 @@
 
 
 		<?php foreach ($category->categories as $category): ?>
+			<?php $file = WWW_ROOT . 'img' . DS . 'icons' . DS . strtolower($category->name).'.svg';?>
+			<?php $sclass = "cat-icon-mask cat-color" . (string)($category->id-1)%4 ?>
+			<?php $caticon = 'icons/'.strtolower($category->name).'.svg'?>
+		    <?php if (file_exists($file)==false): ?>
+				<?php $caticon = 'icons/unknown.svg'?>
+		    <?php endif; ?>
 			<?php $sclass = "cat-icon-mask cat-color" . (string)($category->id-1)%4 ?>
 
 			<div class="column text-center">
 				<a class="cat-container" href=<?php echo "" . (string)$category->id; ?>>
-						<?php echo $this->Html->image('icons/food.svg', array('class' => $sclass)) ?>
+						<?php echo $this->Html->image($caticon, array('class' => $sclass)) ?>
 						<h4 class="cat-text"><?= $category->name ?></h4>
 				</a>
 			</div>
