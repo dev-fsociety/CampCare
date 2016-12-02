@@ -10,6 +10,7 @@
             echo $this->Form->input('email', ['type' => 'hidden']);
             echo $this->Form->input('phone', ['type' => 'hidden']);
             echo $this->Form->input('description', ['type' => 'hidden']);
+            echo $this->Form->input('camp_id', ['options' => $camps]);
         ?>
     </fieldset>
     <?= $this->Form->submit(__('Submit'), ['class' => 'button']) ?>
