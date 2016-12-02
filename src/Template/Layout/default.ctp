@@ -45,7 +45,7 @@ $cakeDescription = 'CampCare';
             <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
               <button class="menu-icon dark" type="button" data-toggle></button>
             </span>
-            <a href=""><?= $this->Html->image('long_logo.png', array('class'=>'topbar_logo')); ?></a>
+            <a href=""><?= $this->Html->image('long_logo.png', ['class'=>'topbar_logo', 'url' => '/']); ?></a>
           </div>
           <div id="responsive-menu">
             <div class="top-bar-left">
