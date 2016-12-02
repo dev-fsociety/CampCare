@@ -20,10 +20,43 @@
 	height: 37px;
 }
 
-footer{
-	height: 25px;
-	background-color: #e6e6e6;
-}
+
+footer {
+  background-color: #292c2f;
+  text-align: center;
+  font-size: 1.2rem;
+  }
+
+  footer p.slogan {
+    color: #8d9093;
+    font-size: 1.8rem;
+    margin: 0 0 1rem; }
+
+  footer p.copywrite {
+    color: #8f9296;
+    font-size: 0.875rem;
+	}
+
+  footer .links a {
+    list-style: none;
+    font-weight: bold;
+    color: #ffffff;
+    padding: 3rem 0 2rem;
+    margin: 0; }
+
+    footer .links a::after {
+      content: "•";
+      padding: 0 0.4rem 0 0.8rem; }
+
+    footer .links a:last-child::after {
+      content: "";
+      padding: 0 0.4rem 0 0.8rem; }
+
+    .footer_logo{
+		height: 37px;
+		margin-top: 10px;
+	}
+
 
 .copyright{
 	margin-left: 10px;
