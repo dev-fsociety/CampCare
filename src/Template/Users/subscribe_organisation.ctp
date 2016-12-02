@@ -1,7 +1,7 @@
 <div class="log-in-form medium-6 medium-centered large-4 large-centered columns">
     <?= $this->Form->create($user) ?>
     <fieldset>
-        <h4 class="text-center"> Register an organisation </h4>
+        <h4 class="text-center"> Register an organization </h4>
             <?php echo $this->Form->input('camp_id', ['required' => false, 'type' => 'select', 'options' => $camps, 'label' => 'Which camp this organization will be linked to']); ?>
             <div class="text-right"> Your camp is not on the list ?</div>
         <?php
