@@ -56,16 +56,16 @@
   .event-date {
   	width: 6rem;
   	margin: 0 auto 1rem;
-  	width: auto; 
+  	width: auto;
 	font-size: 0.2rem;}
   .event-date .event-month {
     margin: 0;
     background: #eee;
     padding: 0.2rem 0.5rem;
-    text-align: center; 
+    text-align: center;
 	font-size: 1rem;
 	}
-  
+
 
 /* ------ Footer Style ------- */
 
@@ -281,6 +281,14 @@ div.message.error:before {
 }
 div.message.hidden {
     height: 0;
+}
+
+div.view-offer {
+		margin-top: 15%;
+		margin-bottom: 15%;
+		background-color: #DEDEDE;
+		border-radius: 10px;
+		padding: 20px 10px;
 }
 
 #campLink {
