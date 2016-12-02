@@ -326,6 +326,8 @@ class UsersController extends AppController
                     return true;
                 }
             }
+            else if(in_array($this->request->action, ['index']))
+                return true;
         }
 
         return false;
