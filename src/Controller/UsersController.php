@@ -145,6 +145,19 @@ class UsersController extends AppController
             'contain' => []
         ]);
 
+        if($user['role'] != 2)
+        {
+            if($user['role'] === 0)
+            {
+                return $this->redirect(['action' => 'editOrganisation', $id]);
+            }
+
+            if($user['role'] === 1)
+            {
+                return $this->redirect(['action' => 'editDonor', $id]);
+            }
+        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->data);
 
@@ -170,6 +183,19 @@ class UsersController extends AppController
         $user = $this->Users->get($id, [
             'contain' => []
         ]);
+
+        if($user['role'] != 1)
+        {
+            if($user['role'] === 0)
+            {
+                return $this->redirect(['action' => 'editOrganisation', $id]);
+            }
+
+            if($user['role'] === 2)
+            {
+                return $this->redirect(['action' => 'editRefugee', $id]);
+            }
+        }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->data);
@@ -202,6 +228,19 @@ class UsersController extends AppController
         $user = $this->Users->get($id, [
             'contain' => []
         ]);
+
+        if($user['role'] != 0)
+        {
+            if($user['role'] === 1)
+            {
+                return $this->redirect(['action' => 'editDonor', $id]);
+            }
+
+            if($user['role'] === 2)
+            {
+                return $this->redirect(['action' => 'editRefugee', $id]);
+            }
+        }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->data);
@@ -278,7 +317,7 @@ class UsersController extends AppController
     {
         if(isset($user))
         {
-            if(in_array($this->request->action, ['edit', 'delete', 'view']))
+            if(in_array($this->request->action, ['editOrganisation', 'editDonor', 'editRefugee', 'delete', 'view']))
             {
                 if((int)$this->request->params['pass'][0] === $user['id'])
                 {
@@ -287,6 +326,8 @@ class UsersController extends AppController
             }
         }
 
+        return false;
+
 
         return parent::isAuthorized($user);
     }
@@ -294,6 +335,7 @@ class UsersController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
+
         $this->Auth->allow(['logout', 'subscribeRefugee', 'subscribeDonor']);
     }
 
