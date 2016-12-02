@@ -60,7 +60,7 @@ class CategoriesController extends AppController
             if ($this->Categories->save($category)) {
                 $this->Flash->success(__('The category has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'Camps', 'action' => 'view', $category->camp_id]);
             } else {
                 $this->Flash->error(__('The category could not be saved. Please, try again.'));
             }
@@ -102,7 +102,7 @@ class CategoriesController extends AppController
             if ($this->Categories->save($category)) {
                 $this->Flash->success(__('The category has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'Camps', 'action' => 'view', $category->camp_id]);
             } else {
                 $this->Flash->error(__('The category could not be saved. Please, try again.'));
             }
@@ -129,7 +129,7 @@ class CategoriesController extends AppController
             $this->Flash->error(__('The category could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['controller' => 'Camps', 'action' => 'view', $category->camp_id]);
     }
 
     public function isAuthorized($user)

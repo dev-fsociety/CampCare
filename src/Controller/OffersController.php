@@ -86,7 +86,7 @@ class OffersController extends AppController
             if ($this->Offers->save($offer)) {
                 $this->Flash->success(__('The offer has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'Users', 'action' => 'view', $offer->user_id]);
             } else {
                 $this->Flash->error(__('The offer could not be saved. Please, try again.'));
             }
@@ -114,7 +114,7 @@ class OffersController extends AppController
             $this->Flash->error(__('The offer could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['controller' => 'Users', 'action' => 'view', $offer->user_id]);
     }
 
     public function isAuthorized($user)
