@@ -5,7 +5,7 @@
 	<!-- if right camp -->
 	<?php $sclass = "square square-color" . (string)($counter%4) ?>
 	<div class="column text-center square-container">
-		<a class="<?php echo $sclass; ?>" href=<?php echo "view/" . $sclass; ?>>
+		<a class="<?php echo $sclass; ?>" href=<?php echo "Categories/view/" . (string)($counter+1); ?>>
 			<div class="square-content">
 				<?= h($category->name) ?>
 			</div>
