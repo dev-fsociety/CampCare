@@ -166,6 +166,13 @@ class ItemsController extends AppController
 
     }
 
+    public function isAuthorized($user)
+    {
+        return isset($user) && $user['role'] === 0;
+    }
 
-
+    public function initialize()
+    {
+        parent::initialize();
+    }
 }

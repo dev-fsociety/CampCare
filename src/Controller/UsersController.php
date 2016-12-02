@@ -298,6 +298,12 @@ class UsersController extends AppController
 
     public function login()
     {
+        if($this->request->session()->read('Auth.User.id') != null)
+        {
+            $this->Flash->warning('You are already logged in.');
+            return $this->redirect(['controller' => 'Categories', 'action' => 'index']);
+        }
+
         if($this->request->is('post'))
         {
             $user = $this->Auth->identify();
@@ -317,7 +323,7 @@ class UsersController extends AppController
     {
         parent::initialize();
 
-        $this->Auth->allow(['logout', 'subscribeRefugee', 'subscribeDonor', 'subscribeOrganisation']);
+        $this->Auth->allow(['logout', 'subscribeRefugee', 'subscribeDonor', 'subscribeOrganisation' /* TO REMOVE WHEN LEAVING PRODUCTION */]);
     }
 
     public function isAuthorized($user)
@@ -336,13 +342,6 @@ class UsersController extends AppController
         }
 
         return false;
-    }
-
-    public function beforeFilter(Event $event)
-    {
-        parent::beforeFilter($event);
-
-        $this->Auth->allow(['logout', 'subscribeRefugee', 'subscribeDonor']);
     }
 
     public function logout()
