@@ -1827,10 +1827,11 @@ select {
   color: #ec5840; }
 
 .form-error {
-  display: none;
-  margin-top: -0.5rem;
-  margin-bottom: 1rem;
-  font-size: 0.75rem;
+  /* There is some comments below 'cause of a bug with Foundation 6 and Cake's Forms */
+  /*display: none;*/
+  /*margin-top: -0.5rem;*/
+  margin-bottom: 0.25rem;
+  /*font-size: 0.75rem;*/
   font-weight: bold;
   color: #ec5840; }
   .form-error.is-visible {
