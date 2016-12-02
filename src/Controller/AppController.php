@@ -59,13 +59,19 @@ class AppController extends Controller
                 'action' => 'login'
             ],
             'loginRedirect' => [
-                'controller' => 'Categories',
+                'controller' => 'Users',
                 'action' => 'index'
             ],
             'logoutRedirect' => [
                 'controller' => 'Users',
                 'action' => 'login'
+            ],
+            'unauthorizedRedirect' => [
+                'controller' => 'Categories',
+                'action' => 'index'
             ]
+
+            // --> DON'T FORGET TO CHANGE THE REDIRECTION TOWARDS "CATEGORIES -> INDEX" TO A REAL HOMEPAGE
         ]);
 
         $this->Auth->deny();

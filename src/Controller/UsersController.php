@@ -19,10 +19,13 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $users = $this->paginate($this->Users);
-
-        $this->set(compact('users'));
-        $this->set('_serialize', ['users']);
+        $user = $this->Auth->user();
+        if($user['role'] == 0)
+            return $this->redirect(['controller' => 'Camps', 'action' => 'view', $user['camp_id']]);
+        else if($user['role'] == 1)
+            return $this->redirect(['controller' => 'Users', 'action' => 'view', $user['id']]);
+        else if($user['role'] == 2)
+            return $this->redirect(['controller' => 'Categories', 'action' => 'index']);
     }
 
     /**
@@ -39,7 +42,6 @@ class UsersController extends AppController
         ]);
 
         $this->set('user', $user);
-        $this->set('_serialize', ['user']);
     }
 
     /**
@@ -128,7 +130,10 @@ class UsersController extends AppController
 
         $user->role = 0;
 
-        $this->set(compact('user'));
+        // Let's get the camps list
+        $camps = $this->Users->Camps->find('list');
+
+        $this->set(compact('user', 'camps'));
         $this->set('_serialize', ['user']);
     }
 
@@ -144,6 +149,19 @@ class UsersController extends AppController
         $user = $this->Users->get($id, [
             'contain' => []
         ]);
+
+        if($user['role'] != 2)
+        {
+            if($user['role'] === 0)
+            {
+                return $this->redirect(['action' => 'editOrganisation', $id]);
+            }
+
+            if($user['role'] === 1)
+            {
+                return $this->redirect(['action' => 'editDonor', $id]);
+            }
+        }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->data);
@@ -170,6 +188,19 @@ class UsersController extends AppController
         $user = $this->Users->get($id, [
             'contain' => []
         ]);
+
+        if($user['role'] != 1)
+        {
+            if($user['role'] === 0)
+            {
+                return $this->redirect(['action' => 'editOrganisation', $id]);
+            }
+
+            if($user['role'] === 2)
+            {
+                return $this->redirect(['action' => 'editRefugee', $id]);
+            }
+        }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->data);
@@ -202,6 +233,19 @@ class UsersController extends AppController
         $user = $this->Users->get($id, [
             'contain' => []
         ]);
+
+        if($user['role'] != 0)
+        {
+            if($user['role'] === 1)
+            {
+                return $this->redirect(['action' => 'editDonor', $id]);
+            }
+
+            if($user['role'] === 2)
+            {
+                return $this->redirect(['action' => 'editRefugee', $id]);
+            }
+        }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->data);
@@ -271,35 +315,55 @@ class UsersController extends AppController
     {
         parent::initialize();
 
-        $this->Auth->allow(['logout', 'subscribeRefugee', 'subscribeDonor']);
+        $this->Auth->allow(['logout', 'subscribeRefugee', 'subscribeDonor', 'subscribeOrganisation']);
     }
 
     public function isAuthorized($user)
     {
         if(isset($user))
         {
-            if(in_array($this->request->action, ['edit', 'delete', 'view']))
+            if(in_array($this->request->action, ['editOrganisation', 'editDonor', 'editRefugee', 'delete', 'view']))
             {
                 if((int)$this->request->params['pass'][0] === $user['id'])
                 {
                     return true;
                 }
             }
+            else if(in_array($this->request->action, ['index']))
+                return true;
         }
 
-
-        return parent::isAuthorized($user);
+        return false;
     }
 
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
+
         $this->Auth->allow(['logout', 'subscribeRefugee', 'subscribeDonor']);
     }
 
     public function logout()
     {
-        $this->Flash->success('You are now logged out.');
-        $this->redirect($this->Auth->logout());
+        if($this->request->session()->read('Auth.User.id') != null)
+        {
+            $this->Flash->success('You are now logged out.');
+            return $this->redirect($this->Auth->logout());
+        }
+
+        else
+        {
+            $this->Flash->warning('You can\'t logout because you\'re not connected.');
+            return $this->redirect('/');
+        }
+    }
+
+    public function profile($id = null)
+    {
+        $user = $this->Users->get($id, [
+            'contain' => ['Needs', 'Offers']
+        ]);
+
+        $this->set('user', $user);
     }
 }

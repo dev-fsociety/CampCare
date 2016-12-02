@@ -21,7 +21,7 @@ class CategoriesController extends AppController
         $this->paginate = [
             'contain' => ['Camps']
         ];
-        $categories = $this->paginate($this->Categories);
+        $categories = $this->paginate($this->Categories->find()->where(['category_id =' => 0]));
 
         $this->set(compact('categories'));
         $this->set('_serialize', ['categories']);
@@ -40,7 +40,10 @@ class CategoriesController extends AppController
             'contain' => ['Camps', 'Categories', 'Items', 'Posts']
         ]);
 
-        $this->set('category', $category);
+        $category->categories = $this->Categories->find()->where(['category_id' => $id]);
+        $category->items = $this->Categories->Items->find()->where(['category_id' => $id]);
+
+        $this->set(compact('category'));
         $this->set('_serialize', ['category']);
     }
 
@@ -63,10 +66,21 @@ class CategoriesController extends AppController
             }
         }
 
-        //TODO
-        // $camp =  ... Recupérer le camp_id de l'utilisateur ici
-        $camp = 1;
-        $categories = $this->Categories->find('list', ['limit' => 200]);
+        $camp = $this->Auth->user('camp_id');
+
+        $sub_q = $this->Categories->Items->find()
+                  ->select(['id'])
+                  ->where(function ($exp, $q) {
+                    return $exp->equalFields('Categories.id', 'Items.category_id');
+                  });
+
+        $categories = $this->Categories->find('list')->where(
+          function ($exp, $q) use ($sub_q) {
+            return $exp->notExists($sub_q);
+            }
+        );
+
+
         $this->set(compact('category', 'camp', 'categories'));
         $this->set('_serialize', ['category']);
     }

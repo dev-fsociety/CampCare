@@ -1,10 +1,28 @@
-<h1 class="text-center" style="color: #444; margin-top: 3%;">Please select a category below</h1>
+<h1 class="text-center">Please select a category below</h1>
 <div class="row small-up-2 medium-up-3 large-up-4">
-<?php $counter = 0;?>
 <?php foreach ($categories as $category): ?>
 	<!-- if right camp -->
-	<?php $sclass = "square square-color" . (string)($counter%4) ?>
-	<div class="column text-center square-container"><a class="<?php echo $sclass; ?>" href="#"><div class="square-content"><?= h($category->name) ?></div></a></div>
-	<?php $counter++;?>
+	<?php $sclass = "square square-color" . (string)($category->id-1)%4 ?>
+	<div class="column text-center square-container">
+
+		<?=
+			 $this->Html->link(
+				'	<div class="square-content"> '.
+				h($category->name).
+				'</div>'
+				,
+			        [
+			            'controller' => 'categories',
+			            'action' => 'view',
+									$category->id
+			        ],
+							[
+								'escape' => false,
+								'class' => $sclass
+							]
+			    );
+		?>
+
+	</div>
 <?php endforeach; ?>
 </div>

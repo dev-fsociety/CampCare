@@ -60,7 +60,19 @@ class ItemsController extends AppController
                 $this->Flash->error(__('The item could not be saved. Please, try again.'));
             }
         }
-        $categories = $this->Items->Categories->find('list', ['limit' => 200]);
+
+        $sub_q = $this->Items->find()
+                  ->select(['id'])
+                  ->where(function ($exp, $q) {
+                    return $exp->equalFields('Categories.id', 'Items.category_id');
+                  });
+
+        $categories = $this->Items->Categories->find('list')->where(
+          function ($exp, $q) use ($sub_q) {
+            return $exp->Exists($sub_q);
+            }
+        );
+
         $this->set(compact('item', 'categories'));
         $this->set('_serialize', ['item']);
     }
@@ -113,7 +125,7 @@ class ItemsController extends AppController
     }
 
     /**
-     * List method
+     * byCategory method
      *
      * @param string|null $id Item id.
      * @return \Cake\Network\Response|null Redirects to index.
@@ -126,6 +138,21 @@ class ItemsController extends AppController
         $category = $this->Items->Categories->get($category_id);
         $this->set(compact('items', 'category'));
     }
+
+    public function process($id = null){
+      $r = $this->Items->Offers->find()->where(['item_id' => $id])->toArray() ;
+      if( empty($r) ){
+        //No result we have to create the needs
+        // add a needs for the item indentified by $id
+        return $this->redirect(['controller' => 'needs','action' => 'add', $id]);
+      }else{
+        //redirect the user to the needs view
+        //$r[0]->id is the id of the offer
+        return $this->redirect(['controller' => 'offers','action' => 'view', $r[0]->id]);
+      }
+
+    }
+
 
 
 }

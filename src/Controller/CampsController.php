@@ -56,7 +56,7 @@ class CampsController extends AppController
             if ($this->Camps->save($camp)) {
                 $this->Flash->success(__('The camp has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'Users', 'action' => 'subscribe_organisation']);
             } else {
                 $this->Flash->error(__('The camp could not be saved. Please, try again.'));
             }
@@ -109,5 +109,16 @@ class CampsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function isAuthorized($user)
+    {
+        return isset($user) && $user['role'] === 0;
+    }
+
+    public function initialize()
+    {
+        parent::initialize();
+        $this->Auth->allow(['action' => 'add']);
     }
 }
