@@ -9,3 +9,7 @@ if (!isset($params['escape']) || $params['escape'] !== false) {
 		<span aria-hidden="true">&times;</span>
 	</button>
 </div>
+
+<script>
+	setTimeout('$(".alert").slideUp()', 5000)
+</script>

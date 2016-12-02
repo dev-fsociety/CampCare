@@ -10,8 +10,9 @@
             echo $this->Form->input('email', ['required' => true]);
             echo $this->Form->input('phone', ['required' => true]);
             echo $this->Form->input('description', ['required' => false]);
+            echo $this->Form->input('camp_id', ['options' => $camps]);
         ?>
     </fieldset>
-    <?= $this->Form->submit(__('Submit'), ['class' => 'button']) ?>
+    <?= $this->Form->submit(__('Submit'), ['class' => 'button expanded']) ?>
     <?= $this->Form->end() ?>
 </div>

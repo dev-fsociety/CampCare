@@ -95,7 +95,7 @@ class UsersTable extends Table
             ->requirePresence('phone', 'create')
             ->allowEmpty('phone')
             ->add('phone', 'validFormat', [
-                'rule' => ['custom', '#^0[0-79][0-9]{8}$#'],
+                'rule' => ['custom', '#^0[1-79]([-. ]?[0-9]{2}){4}$#'],
                 'message' => 'Please enter a valid phone number.']
                 );
 
