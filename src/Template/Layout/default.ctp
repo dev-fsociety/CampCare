@@ -46,21 +46,23 @@ $cakeDescription = 'CampCare';
             <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
               <button class="menu-icon dark" type="button" data-toggle></button>
             </span>
-            <a href=""><?= $this->Html->image('long_logo.png', array('class'=>'topbar_logo')); ?></a>
+            <a href="<?= $this->Url->build('/', true); ?>"><?= $this->Html->image('long_logo.png', ['class'=>'topbar_logo', 'url' => '/']); ?></a>
           </div>
           <div id="responsive-menu">
             <div class="top-bar-left">
             </div>
             <div class="top-bar-right">
               <ul class="menu">
-                <li><a href="#" class="profile_icon"><i class="fi-torso"></i></a></li>
+                <?php if($this->request->session()->read('Auth.User.id') != null): ?>
+                <li><a href="<?= $this->Url->build('/users', true); ?>" class="profile_icon"><i class="fi-torso"></i></a></li>
+                <li><a href="<?= $this->Url->build('/users/logout', true); ?>" class="profile_icon"><i class="fi-power"></i></a></li>
+                <?php endif; ?>
               </ul>
             </div>
           </div>
         </div>
       </div>
     </div>
-
 
     <?= $this->Flash->render() ?>
     <div class="container clearfix">
@@ -73,8 +75,8 @@ $cakeDescription = 'CampCare';
           <p class="links">
             <a href="https://twitter.com/dev_fsociety">Twitter</a>
             <a href="http://www.nuitdelinfo.com/">Nuit de l'Info</a>
-            <a href="https://github.com/dev-fsociety/DFS-2016">Git Hub</a>
-            <a href="#">About</a>
+            <a href="https://github.com/dev-fsociety/DFS-2016">GitHub</a>
+            <a href="https://github.com/orgs/dev-fsociety/teams">About</a>
           </p>
           <p class="copywrite">Copywrite /DEV/FSOCIETY © 2016</p>
       </div>

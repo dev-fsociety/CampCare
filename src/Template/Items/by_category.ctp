@@ -7,26 +7,25 @@
     <?php foreach ($items as $item): ?>
 	    <!-- if right camp -->
 	    <?php $sclass = "square square-color" . (string)($counter%4) ?>
-        <div class="row">
+      <?php $rclass = "row bycat row-color" . (string)($counter%4) ?>
+
+      <a href=<?php echo "../process/" . $item->id; ?> >
+        <div class="<?php echo $rclass; ?>" style="background-color: #DEDEDE;">
   	      <div class="column large-3 medium-3 small-3 text-center square-container">
             <div class="<?php echo $sclass; ?>">
               <div class="square-content"><?= h($item->name) ?></div>
             </div>
           </div>
-          <div class="column large-3 medium-3 small-3 text-center">
+          <div class="column large-3 medium-3 small-3"></div>
+          <div class="column large-6 medium-6 small-6">
             <div class="cat-desc">
               <?= h($item->category) ?>
               <?= $this->Text->autoParagraph(h($item->description)); ?>
             </div>
           </div>
-          <div class="column large-3 medium-3 small-3 text-center">
-            <div class="cat-desc">
-              <a href="#" class="button large radius">Hot+1</a>
-              <br> <?= $this->Number->format($item->hot) ?> <br>
-              <a href="#" class="button large radius">Get some <?= h($item->name) ?> !</a>
-            </div>
-          </div>
         </div>
+        </a>
+        <br>
 	  <?php $counter++;?>
     <?php endforeach; ?>
   </div>

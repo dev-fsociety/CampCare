@@ -66,11 +66,21 @@ class CategoriesController extends AppController
             }
         }
 
-        //TODO
-        // $camp =  ... Recupérer le camp_id de l'utilisateur ici
         $camp = $this->Auth->user('camp_id');
 
-        $categories = $this->Categories->find('list', ['limit' => 200]);
+        $sub_q = $this->Categories->Items->find()
+                  ->select(['id'])
+                  ->where(function ($exp, $q) {
+                    return $exp->equalFields('Categories.id', 'Items.category_id');
+                  });
+
+        $categories = $this->Categories->find('list')->where(
+          function ($exp, $q) use ($sub_q) {
+            return $exp->notExists($sub_q);
+            }
+        );
+
+
         $this->set(compact('category', 'camp', 'categories'));
         $this->set('_serialize', ['category']);
     }
