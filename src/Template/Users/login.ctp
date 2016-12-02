@@ -5,7 +5,7 @@
     <div class="row column log-in-form"  style="padding:1rem; margin-bottom: 10px; margin-top: 10px;">
       <?= $this->Form->create() ?>
       <fieldset>
-      <h4 class="text-center"> Log In </h4>
+      <h4 class="text-center">Log In</h4>
       <?php 
           echo $this->Form->input('username');
           echo $this->Form->input('password');

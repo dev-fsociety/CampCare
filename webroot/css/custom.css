@@ -243,3 +243,9 @@ div.message.hidden {
 .column {
 	padding: 0px;
 }
+
+#campLink {
+  text-align: right;
+  margin-bottom: 15px;
+  display: block;
+}
