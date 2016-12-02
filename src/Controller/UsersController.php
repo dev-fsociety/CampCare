@@ -100,9 +100,10 @@ class UsersController extends AppController
         }
 
         $user->role = 1;
-        $camps = $this->Users->Camps->find('list');
 
-        $this->set(compact('user', 'camps'));
+        $camps = $this->Users->Camps->find('list', ['limit' => 200]);
+        $this->set(compact('user','camps'));
+
         $this->set('_serialize', ['user']);
     }
 

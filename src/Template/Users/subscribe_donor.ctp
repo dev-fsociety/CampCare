@@ -13,6 +13,6 @@
             echo $this->Form->input('camp_id', ['options' => $camps]);
         ?>
     </fieldset>
-    <?= $this->Form->submit(__('Submit'), ['class' => 'button']) ?>
+    <?= $this->Form->submit(__('Submit'), ['class' => 'button expanded']) ?>
     <?= $this->Form->end() ?>
 </div>
