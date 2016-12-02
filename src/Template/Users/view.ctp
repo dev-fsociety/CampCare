@@ -1,5 +1,5 @@
-<!-- user infos --> 
-<div class="row" style="margin-top:40px;">  
+<!-- user infos -->
+<div class="row" style="margin-top:40px;">
   <div class="medium-6 columns">
     <div class="profile">
       <div class="content">
@@ -9,7 +9,7 @@
                 <li>firstname : <?= h($user->firstname) ?>
                 <li>name : <?= h($user->name) ?>
                 <li>email : <?= h($user->email) ?>
-                <li>description : <br> 
+                <li>description : <br>
                     <?= $this->Text->autoParagraph(h($user->description)); ?>
             </ul>
          <?php echo $this->Html->link("Edit your profile", array('controller' => 'Users','action'=> 'editDonor', $user->id), array('class' => 'button expanded')) ?>
@@ -17,22 +17,22 @@
     </div>
   </div>
 
-<!-- offers --> 
+<!-- offers -->
   <div class="medium-6 columns end">
     <div class="profile">
       <div class="content">
         <h4 class = "title">Profile activities</h4>
-        <div class="related">    
+        <div class="related">
             <ul>
                 <li><h5><?= __('Related Offers') ?></h5>
-            </ul>    
+            </ul>
 
             <?php if (!empty($user->offers)): ?>
             <div class="small-12 columns small-centered">
                 <?php foreach($user->offers as $offers): ?>
                 <article class="post">
 
-                    <!-- date --> 
+                    <!-- date -->
                     <div class="event-date">
                       <p class="event-month">Event date</p>
                       <p class="event-day"><?= h($offers->event_date) ?></p>
@@ -51,10 +51,10 @@
                 <hr>
                 <?php endforeach; ?>
             </div>
-            <?php endif; ?> 
+            <?php endif; ?>
 
         </div>
-        <?php echo $this->Html->link("Do an offer", array('controller' => 'Offers','action'=> 'add'), array('class' => 'button expanded'))?>
+        <?php echo $this->Html->link("Do an offer", array('controller' => 'Offers','action'=> 'add', $loggedUser['id']), array('class' => 'button expanded'))?>
       </div>
     </div>
   </div>
