@@ -3,7 +3,7 @@
 
     <div class="related">
         <?php if (!empty($category->categories->toArray())): ?>
-        <h4>Sub-categories</h4>
+		<h3 class="text-center" style="color: #444; margin-top: 2%; margin-bottom:2%;">Please select a sub-category below</h1>
 		<div class="row small-up-2 medium-up-3 large-up-4">
 
 
@@ -20,37 +20,45 @@
 		</div>
         <?php endif; ?>
     </div>
+
     <div class="related">
-		<!-- Liste d'items -->
         <?php if ($category->items != null): ?>
-		<h4><?= __('Related Items') ?></h4>
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Name') ?></th>
-                <th scope="col"><?= __('Category Id') ?></th>
-                <th scope="col"><?= __('Description') ?></th>
-                <th scope="col"><?= __('Hot') ?></th>
-                <th scope="col"><?= __('Cooldown') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-            <?php foreach ($category->items as $items): ?>
-            <tr>
-                <td><?= h($items->id) ?></td>
-                <td><?= h($items->name) ?></td>
-                <td><?= h($items->category_id) ?></td>
-                <td><?= h($items->description) ?></td>
-                <td><?= h($items->hot) ?></td>
-                <td><?= h($items->cooldown) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'Items', 'action' => 'view', $items->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'Items', 'action' => 'edit', $items->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Items', 'action' => 'delete', $items->id], ['confirm' => __('Are you sure you want to delete # {0}?', $items->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
+
+		<h3 class="text-center" style="color: #444; margin-top: 2%; margin-bottom:2%;">Please select an item below</h1>
+
+		<div class="large-1 medium-1 columns"><br/></div>
+		<div class="columns small-up-12 medium-up-10 large-10">
+            <?php foreach ($category->items as $item): ?>
+				<?php $sclass = "cat-icon-mask cat-color" . (string)($item->id-1)%4 ?>
+				<?=$this->Html->link('
+				 	<div class="row item">
+						<div class="column large-2 medium-2 small-2 text-center">
+							<div class="cat-container" >
+									' . $this->Html->image("icons/food.svg", array("class" => $sclass)) . '
+							</div>
+						</div>
+						<div class="column large-10 medium-10 small-10">
+							<h4 class="item-title">'.$item->name.'</h4>
+							<p class="item-desc">
+								'.$this->Text->autoParagraph(h($item->description)).'
+							</p>
+						 </div>
+					</div>',
+					[
+						'controller' => 'items',
+						'action' => 'process',
+						    $item->id
+					],
+					[
+						'escape' => false
+					]);
+				?>
+		<?php endforeach; ?>
+		</div>
+		<div class="large-1 medium-1 columns"><br/></div>
         <?php endif; ?>
+
+
     </div>
     <div class="related">
         <?php if (!empty($category->posts)): ?>
