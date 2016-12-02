@@ -103,6 +103,10 @@ class UsersTable extends Table
             ->requirePresence('description', 'create')
             ->allowEmpty('description');
 
+        $validator
+            ->requirePresence('camp_id', 'create')
+            ->notEmpty('camp_id');
+
         return $validator;
     }
 

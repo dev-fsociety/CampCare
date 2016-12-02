@@ -130,7 +130,10 @@ class UsersController extends AppController
 
         $user->role = 0;
 
-        $this->set(compact('user'));
+        // Let's get the camps list
+        $camps = $this->Users->Camps->find('list');
+
+        $this->set(compact('user', 'camps'));
         $this->set('_serialize', ['user']);
     }
 
@@ -312,7 +315,7 @@ class UsersController extends AppController
     {
         parent::initialize();
 
-        $this->Auth->allow(['logout', 'subscribeRefugee', 'subscribeDonor']);
+        $this->Auth->allow(['logout', 'subscribeRefugee', 'subscribeDonor', 'subscribeOrganisation']);
     }
 
     public function isAuthorized($user)
