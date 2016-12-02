@@ -1,3 +1,4 @@
+<!-- user infos --> 
 <div class="row" style="margin-top:40px;">  
   <div class="medium-6 columns">
     <div class="card">
@@ -16,39 +17,44 @@
     </div>
   </div>
 
+<!-- offers --> 
   <div class="medium-6 columns end">
     <div class="card">
       <div class="content">
 
         <h4 style="text-align:center;">Profile activities</h4>
-        <div class="related">
-            <h6><?= __('Related Offers') ?></h6>
+        
+        <div class="related">    
+            <ul>
+                <li><h5><?= __('Related Offers') ?></h5>
+            </ul>    
+
             <?php if (!empty($user->offers)): ?>
-            <table cellpadding="0" cellspacing="0">
-                <tr>
-                    <th scope="col"><?= __('Id') ?></th>
-                    <th scope="col"><?= __('User Id') ?></th>
-                    <th scope="col"><?= __('Item Id') ?></th>
-                    <th scope="col"><?= __('Created') ?></th>
-                    <th scope="col"><?= __('Event Date') ?></th>
-                    <th scope="col" class="actions"><?= __('Actions') ?></th>
-                </tr>
-                <?php foreach ($user->offers as $offers): ?>
-                <tr>
-                    <td><?= h($offers->id) ?></td>
-                    <td><?= h($offers->user_id) ?></td>
-                    <td><?= h($offers->item_id) ?></td>
-                    <td><?= h($offers->created) ?></td>
-                    <td><?= h($offers->event_date) ?></td>
-                    <td class="actions" style="text-align:right;">
-                        <?= $this->Html->link(__('View'), ['controller' => 'Offers', 'action' => 'view', $offers->id]) ?> <br>
-                        <?= $this->Html->link(__('Edit'), ['controller' => 'Offers', 'action' => 'edit', $offers->id]) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['controller' => 'Offers', 'action' => 'delete', $offers->id], ['confirm' => __('Are you sure you want to delete # {0}?', $offers->id)]) ?>
-                    </td>
-                </tr>
+            <div class="small-12 columns small-centered">
+                <?php foreach($user->offers as $offers): ?>
+                <article class="post">
+
+                    <!-- date --> 
+                    <div class="event-date">
+                      <p class="event-month">Event date</p>
+                      <p class="event-day"><?= h($offers->event_date) ?></p>
+                    </div>
+
+                    <div class="post-desc">
+                        <h4 class="post-desc-header">Item N°<?= h($offers->item_id) ?></h4>
+                        <p class="post-desc-detail">Creation date:<?= h($offers->created) ?></p>
+
+                        <td class="actions" style="text-align:right;">
+                            <?= $this->Html->link(__('View'), ['controller' => 'Offers', 'action' => 'view', $offers->id]) ?>
+                            <?= $this->Html->link(__('Edit'), ['controller' => 'Offers', 'action' => 'edit', $offers->id]) ?>
+                            <?= $this->Form->postLink(__('Delete'), ['controller' => 'Offers', 'action' => 'delete', $offers->id], ['confirm' => __('Are you sure you want to delete # {0}?', $offers->id)]) ?>
+                        </td>
+                    </div>
+                </article>
+                <hr>
                 <?php endforeach; ?>
-            </table>
-            <?php endif; ?>
+            </div>
+            <?php endif; ?> 
         </div>
         <?php echo $this->Html->link("Do an offer", array('controller' => 'Offers','action'=> 'add'), array('class' => 'button expanded'))?>
       </div>
