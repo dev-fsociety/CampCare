@@ -18,10 +18,7 @@ class ItemsController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Categories']
-        ];
-        $items = $this->paginate($this->Items);
+        $items = $this->paginate($this->Items->find()->order(['hot' => 'DESC']));
 
         $this->set(compact('items'));
         $this->set('_serialize', ['items']);
@@ -113,4 +110,21 @@ class ItemsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    /**
+     * List method
+     *
+     * @param string|null $id Item id.
+     * @return \Cake\Network\Response|null Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function byCategory($category_id = null){
+        $items = $this->Items->find('category', [
+          'category_id' => $category_id
+        ]);
+        $category = $this->Items->Categories->get($category_id);
+        $this->set(compact('items', 'category'));
+    }
+
+
 }

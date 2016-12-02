@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.1deb1
+-- version 4.6.4deb1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 01, 2016 at 07:33 PM
--- Server version: 5.6.30-1
--- PHP Version: 7.0.12-1
+-- Generation Time: Dec 01, 2016 at 04:08 PM
+-- Server version: 5.7.16-0ubuntu0.16.10.1
+-- PHP Version: 7.0.8-3ubuntu3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `DFS-2016`
+-- Database: `dfs_2016`
 --
 
 -- --------------------------------------------------------
@@ -112,12 +112,13 @@ CREATE TABLE `users` (
   `username` varchar(64) COLLATE utf8_bin NOT NULL,
   `password` varchar(255) COLLATE utf8_bin NOT NULL,
   `role` int(11) NOT NULL COMMENT '0=Orga; 1=Donor; 2=refugee',
-  `firstname` varchar(100) COLLATE utf8_bin NOT NULL,
-  `name` varchar(100) COLLATE utf8_bin NOT NULL,
-  `email` varchar(255) COLLATE utf8_bin NOT NULL,
-  `phone` varchar(20) COLLATE utf8_bin NOT NULL,
-  `description` text COLLATE utf8_bin NOT NULL,
-  `created` date NOT NULL
+  `firstname` varchar(100) COLLATE utf8_bin DEFAULT NULL,
+  `name` varchar(100) COLLATE utf8_bin DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `phone` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `description` text COLLATE utf8_bin,
+  `created` date DEFAULT NULL,
+  `camp_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -174,12 +175,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `camps`
 --
 ALTER TABLE `camps`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `items`
 --
@@ -204,7 +205,7 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -26,6 +26,10 @@
             <th scope="row"><?= __('Lat') ?></th>
             <td><?= $this->Number->format($camp->lat) ?></td>
         </tr>
+        <tr>
+            <th scope="row"><?= __('Refugee Count') ?></th>
+            <td><?= $this->Number->format($refugee_count) ?></td>
+        </tr>
     </table>
 </div>
  -->

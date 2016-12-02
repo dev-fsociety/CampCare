@@ -47,6 +47,10 @@ class UsersTable extends Table
         $this->hasMany('Offers', [
             'foreignKey' => 'user_id'
         ]);
+
+        $this->belongsTo('Camps', [
+          'foreignKey' => 'camp_id'
+        ]);
     }
 
     /**
@@ -76,24 +80,28 @@ class UsersTable extends Table
 
         $validator
             ->requirePresence('firstname', 'create')
-            ->notEmpty('firstname');
+            ->allowEmpty('firstname');
 
         $validator
             ->requirePresence('name', 'create')
-            ->notEmpty('name');
+            ->allowEmpty('name');
 
         $validator
             ->email('email')
             ->requirePresence('email', 'create')
-            ->notEmpty('email');
+            ->allowEmpty('email');
 
         $validator
             ->requirePresence('phone', 'create')
-            ->notEmpty('phone');
+            ->allowEmpty('phone')
+            /*->add('phone', 'validFormat', [
+                'rule' => ['custom', '^0[0-79][0-9]{8}$'],
+                'message' => 'Please enter a valid phone number.']
+                )*/;
 
         $validator
             ->requirePresence('description', 'create')
-            ->notEmpty('description');
+            ->allowEmpty('description');
 
         return $validator;
     }
