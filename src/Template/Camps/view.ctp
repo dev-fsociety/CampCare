@@ -23,36 +23,55 @@
         <h4> Categories for this camp </h4>
         <ul>
             <?php foreach($camp->categories as $category): ?>
-                <li> <?= h($category->name) ?> <?= $this->Form->postLink(__('<i class="fi-x-circle"></i>'), ['controller' => 'Categories', 'action' => 'delete', $category->id], ['confirm' => __('Are you sure you want to delete : {0}?', $category->name), 'escape' => false]) ?></li>
+                <li> <?= h($category->name) ?> <?= $this->Form->postLink(__('<i class="fi-x-circle"></i>'), ['controller' => 'Categories', 'action' => 'delete', $category->id], ['confirm' => __('Are you sure you want to delete : {0}?', $category->name), 'escape' => false]) ?>
+                  <?php echo $this->Html->link(__('<i class="fi-pencil"></i>'),
+                          [
+                              'controller' => 'Categories',
+                              'action' => 'edit',
+                              $category->id
+                          ],
+                          [
+                            'escape' => false
+                          ]
+                      ); ?>
+                </li>
             <?php endforeach; ?>
         </ul>
 
         <h4> Items for this camp </h4>
         <ul>
-        <?php
+          <?php
           foreach ($items as $key => $value) {
-              echo '<li>';
-              echo $value['name'];
-              echo '  ';
-              echo ' hot : ' . $value['hot'];
-              echo '  ';
-              echo $this->Html->link(__('<i class="fi-refresh"></i>'),
-                      [
-                          'controller' => 'Items',
-                          'action' => 'reset',
-                          $value['id']
-                      ],
-                      [
-                        'escape' => false
-                      ]
-                  );
+            echo '<li>';
+            echo $value['name'];
+            echo '  ';
+            echo ' hot : ' . $value['hot'];
+            echo '  ';
+            echo $this->Html->link(__('<i class="fi-refresh"></i>'),
+            [
+              'controller' => 'Items',
+              'action' => 'reset',
+              $value['id']
+            ],
+            [
+              'escape' => false
+            ]
+          );
+          echo $this->Html->link(__('<i class="fi-pencil"></i>'),
+          [
+            'controller' => 'Items',
+            'action' => 'edit',
+            $value['id']
+          ],
+          [
+            'escape' => false
+          ]
+        );
+        echo '</li>';
+      }
 
-              echo '</li>';
 
-          }
-
-
-         ?>
+      ?>
        </ul>
 
 
