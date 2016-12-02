@@ -71,13 +71,13 @@
             <?php endforeach; ?>
 
         </ul>
-
+        
 
     </div>
     <div class="large-3 columns">
 
         <?= $this->Html->link(__('New Category'), ['controller' => 'Categories', 'action' => 'add'], array('class' => 'button expanded')) ?>
-
+        <?= $this->Html->link(__('New Item'), ['controller' => 'Items', 'action' => 'add'], array('class' => 'button expanded')) ?>
     </div>
 
 
