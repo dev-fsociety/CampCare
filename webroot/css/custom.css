@@ -52,7 +52,10 @@ h1 {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-top: 2%;
+	padding-top: 2%;
+	padding-bottom: 2%;
+	padding-left: 0;
+	padding-right: 0;
 }
 
 .square {
@@ -194,9 +197,6 @@ div.message.hidden {
     height: 0;
 }
 
-.row .square-container {
-	margin-top: 0%;
-}
 
 .cat-desc {
 	margin-top: 20%;
