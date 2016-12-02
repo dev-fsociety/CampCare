@@ -18,11 +18,6 @@ class ItemsController extends AppController
      */
     public function index()
     {
-      /*  $this->paginate = [
-            'contain' => ['Categories'],
-            'order' => ['Items.shot' => 'desc']
-        ];*/
-        //$items = $this->paginate($this->Items->find()->where(['id' => 1])->toArray());
         $items = $this->paginate($this->Items->find()->order(['hot' => 'DESC']));
 
         $this->set(compact('items'));
@@ -127,7 +122,8 @@ class ItemsController extends AppController
         $items = $this->Items->find('category', [
           'category_id' => $category_id
         ]);
-        $this->set(compact('items'));
+        $category = $this->Items->Categories->get($category_id);
+        $this->set(compact('items', 'category'));
     }
 
 

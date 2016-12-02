@@ -21,7 +21,7 @@ class CategoriesController extends AppController
         $this->paginate = [
             'contain' => ['Camps']
         ];
-        $categories = $this->paginate($this->Categories);
+        $categories = $this->paginate($this->Categories->find()->where(['category_id =' => 0]));
 
         $this->set(compact('categories'));
         $this->set('_serialize', ['categories']);
@@ -40,7 +40,10 @@ class CategoriesController extends AppController
             'contain' => ['Camps', 'Categories', 'Items', 'Posts']
         ]);
 
-        $this->set('category', $category);
+        $category->categories = $this->Categories->find()->where(['category_id' => $id]);
+        $category->items = $this->Categories->Items->find()->where(['category_id' => $id]);
+
+        $this->set(compact('category'));
         $this->set('_serialize', ['category']);
     }
 
