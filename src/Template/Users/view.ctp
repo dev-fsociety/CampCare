@@ -40,8 +40,8 @@
                     <td><?= h($offers->item_id) ?></td>
                     <td><?= h($offers->created) ?></td>
                     <td><?= h($offers->event_date) ?></td>
-                    <td class="actions">
-                        <?= $this->Html->link(__('View'), ['controller' => 'Offers', 'action' => 'view', $offers->id]) ?>
+                    <td class="actions" style="text-align:right;">
+                        <?= $this->Html->link(__('View'), ['controller' => 'Offers', 'action' => 'view', $offers->id]) ?> <br>
                         <?= $this->Html->link(__('Edit'), ['controller' => 'Offers', 'action' => 'edit', $offers->id]) ?>
                         <?= $this->Form->postLink(__('Delete'), ['controller' => 'Offers', 'action' => 'delete', $offers->id], ['confirm' => __('Are you sure you want to delete # {0}?', $offers->id)]) ?>
                     </td>
