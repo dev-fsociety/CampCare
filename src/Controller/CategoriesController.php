@@ -68,7 +68,8 @@ class CategoriesController extends AppController
 
         //TODO
         // $camp =  ... Recupérer le camp_id de l'utilisateur ici
-        $camp = 1;
+        $camp = $this->Auth->user('camp_id');
+
         $categories = $this->Categories->find('list', ['limit' => 200]);
         $this->set(compact('category', 'camp', 'categories'));
         $this->set('_serialize', ['category']);
