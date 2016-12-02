@@ -93,7 +93,11 @@ class UsersTable extends Table
 
         $validator
             ->requirePresence('phone', 'create')
-            ->allowEmpty('phone');
+            ->allowEmpty('phone')
+            /*->add('phone', 'validFormat', [
+                'rule' => ['custom', '^0[0-79][0-9]{8}$'],
+                'message' => 'Please enter a valid phone number.']
+                )*/;
 
         $validator
             ->requirePresence('description', 'create')
