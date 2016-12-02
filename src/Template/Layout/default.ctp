@@ -36,7 +36,7 @@ $cakeDescription = 'CampCare';
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 </head>
-<body>   
+<body>
 
     <div class="top-bar-container" data-sticky-container>
       <div class="sticky" data-sticky data-options="anchor: page; marginTop: 0; stickyOn: small;">
@@ -73,14 +73,14 @@ $cakeDescription = 'CampCare';
 
     <!-- JS Calls -->
     <?= $this->Html->script('vendor/jquery') ?>
-    <?= $this->Html->script('vendor/what-input.min') ?>
+    <?= $this->Html->script('vendor/what-input') ?>
     <?= $this->Html->script('vendor/foundation') ?>
     <?= $this->Html->script('custom') ?>
 
-    
+
 
     <script>$(document).foundation();</script>
-    
+
 
 </body>
 </html>
