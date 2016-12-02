@@ -73,8 +73,8 @@ $cakeDescription = 'CampCare';
           <p class="links">
             <a href="https://twitter.com/dev_fsociety">Twitter</a>
             <a href="http://www.nuitdelinfo.com/">Nuit de l'Info</a>
-            <a href="https://github.com/dev-fsociety/DFS-2016">Git Hub</a>
-            <a href="#">About</a>
+            <a href="https://github.com/dev-fsociety/DFS-2016">GitHub</a>
+            <a href="https://github.com/orgs/dev-fsociety/teams">About</a>
           </p>
           <p class="copywrite">Copywrite /DEV/FSOCIETY © 2016</p>
       </div>

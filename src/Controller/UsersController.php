@@ -329,9 +329,6 @@ class UsersController extends AppController
         }
 
         return false;
-
-
-        return parent::isAuthorized($user);
     }
 
     public function beforeFilter(Event $event)
@@ -343,7 +340,16 @@ class UsersController extends AppController
 
     public function logout()
     {
-        $this->Flash->success('You are now logged out.');
-        $this->redirect($this->Auth->logout());
+        if($this->request->session()->read('Auth.User.id') != null)
+        {
+            $this->Flash->success('You are now logged out.');
+            return $this->redirect($this->Auth->logout());
+        }
+
+        else
+        {
+            $this->Flash->warning('You can\'t logout because you\'re not connected.');
+            return $this->redirect('/');
+        }
     }
 }
