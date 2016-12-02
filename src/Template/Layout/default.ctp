@@ -31,8 +31,8 @@ $cakeDescription = 'CampCare';
     <?= $this->Html->css('icons/foundation-icons.css') ?>
     <?= $this->Html->css('custom.css') ?>
     <?= $this->Html->css('login.css') ?>
-    
-    
+
+
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
@@ -68,7 +68,7 @@ $cakeDescription = 'CampCare';
     <div class="container clearfix">
         <?= $this->fetch('content') ?>
     </div>
-    
+
     <footer>
       <div class="row">
           <a href=""><?= $this->Html->image('long_logo_gris.svg', array('class'=>'footer_logo')); ?></a>
@@ -78,7 +78,7 @@ $cakeDescription = 'CampCare';
             <a href="https://github.com/dev-fsociety/DFS-2016">GitHub</a>
             <a href="https://github.com/orgs/dev-fsociety/teams">About</a>
           </p>
-          <p class="copywrite">Copywrite /DEV/FSOCIETY © 2016</p>
+          <p class="copyright">Copyright /DEV/FSOCIETY © 2016</p>
       </div>
     </footer>
 

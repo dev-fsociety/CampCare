@@ -1,70 +1,29 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Category'), ['action' => 'edit', $category->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Category'), ['action' => 'delete', $category->id], ['confirm' => __('Are you sure you want to delete # {0}?', $category->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Categories'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Category'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Camps'), ['controller' => 'Camps', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Camp'), ['controller' => 'Camps', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Categories'), ['controller' => 'Categories', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Category'), ['controller' => 'Categories', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Items'), ['controller' => 'Items', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Item'), ['controller' => 'Items', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Posts'), ['controller' => 'Posts', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Post'), ['controller' => 'Posts', 'action' => 'add']) ?> </li>
-    </ul>
-</nav>
-<div class="categories view large-9 medium-8 columns content">
-    <h3><?= h($category->name) ?></h3>
-    <table class="vertical-table">
-        <tr>
-            <th scope="row"><?= __('Name') ?></th>
-            <td><?= h($category->name) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Camp') ?></th>
-            <td><?= $category->has('camp') ? $this->Html->link($category->camp->name, ['controller' => 'Camps', 'action' => 'view', $category->camp->id]) : '' ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($category->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Category Id') ?></th>
-            <td><?= $this->Number->format($category->category_id) ?></td>
-        </tr>
-    </table>
+<?php //debug($category); die(); ?>
+<h1 class="text-center">Help on getting <?= $category->name ?> in <?= $category->has('camp') ? $this->Html->link($category->camp->name, ['controller' => 'Camps', 'action' => 'view', $category->camp->id]) : '' ?></h1>
+
     <div class="related">
-        <h4><?= __('Related Categories') ?></h4>
-        <?php if (!empty($category->categories)): ?>
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Name') ?></th>
-                <th scope="col"><?= __('Category Id') ?></th>
-                <th scope="col"><?= __('Camp Id') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-            <?php foreach ($category->categories as $categories): ?>
-            <tr>
-                <td><?= h($categories->id) ?></td>
-                <td><?= h($categories->name) ?></td>
-                <td><?= h($categories->category_id) ?></td>
-                <td><?= h($categories->camp_id) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'Categories', 'action' => 'view', $categories->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'Categories', 'action' => 'edit', $categories->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Categories', 'action' => 'delete', $categories->id], ['confirm' => __('Are you sure you want to delete # {0}?', $categories->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
+        <?php if (!empty($category->categories->toArray())): ?>
+        <h4>Sub-categories</h4>
+		<div class="row small-up-2 medium-up-3 large-up-4">
+
+
+		<?php foreach ($category->categories as $category): ?>
+			<?php $sclass = "cat-icon-mask cat-color" . (string)($category->id-1)%4 ?>
+
+			<div class="column text-center">
+				<a class="cat-container" href=<?php echo "" . (string)$category->id; ?>>
+						<?php echo $this->Html->image('icons/food.svg', array('class' => $sclass)) ?>
+						<h4 class="cat-text"><?= $category->name ?></h4>
+				</a>
+			</div>
+		<?php endforeach; ?>
+		</div>
         <?php endif; ?>
     </div>
     <div class="related">
-        <h4><?= __('Related Items') ?></h4>
-        <?php if (!empty($category->items)): ?>
+		<!-- Liste d'items -->
+        <?php if ($category->items != null): ?>
+		<h4><?= __('Related Items') ?></h4>
         <table cellpadding="0" cellspacing="0">
             <tr>
                 <th scope="col"><?= __('Id') ?></th>
@@ -94,8 +53,8 @@
         <?php endif; ?>
     </div>
     <div class="related">
-        <h4><?= __('Related Posts') ?></h4>
         <?php if (!empty($category->posts)): ?>
+		<h4><?= __('Related Posts') ?></h4>
         <table cellpadding="0" cellspacing="0">
             <tr>
                 <th scope="col"><?= __('Id') ?></th>
@@ -120,4 +79,3 @@
         </table>
         <?php endif; ?>
     </div>
-</div>
