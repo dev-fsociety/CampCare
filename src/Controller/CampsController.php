@@ -82,7 +82,7 @@ class CampsController extends AppController
             if ($this->Camps->save($camp)) {
                 $this->Flash->success(__('The camp has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $camp->id]);
             } else {
                 $this->Flash->error(__('The camp could not be saved. Please, try again.'));
             }
