@@ -55,7 +55,7 @@ class ItemsController extends AppController
             if ($this->Items->save($item)) {
                 $this->Flash->success(__('The item has been saved.'));
 
-                return $this->redirect(['action' => 'view', $item->id]);
+                return $this->redirect(['controller' => 'camps' ,'action' => 'view', $this->Auth->user('camp_id') ]);
             } else {
                 $this->Flash->error(__('The item could not be saved. Please, try again.'));
             }
@@ -154,6 +154,27 @@ class ItemsController extends AppController
         //$r[0]->id is the id of the offer
         return $this->redirect(['controller' => 'offers','action' => 'view', $r[0]->id]);
       }
+
+    }
+
+    public function reset($id = null){
+        $item = $this->Items->get($id);
+
+        if (empty($item->toArray()))
+    		{
+          $this->Flash->error('Item your have tired to reset does not exist');
+          $this->redirect(['controller' => 'Camps' ,'action'=> 'view', $this->Auth->user('camp_id')]);
+    		}else{
+          $item->hot = 0;
+          if ($this->Items->save($item)) {
+              $this->Flash->success(__('The item has been reset.'));
+              $this->redirect(['controller' => 'Camps' ,'action'=> 'view', $this->Auth->user('camp_id')]);
+          } else {
+              $this->Flash->error(__('The item could not be reset. Please, try again.'));
+          }
+        }
+
+
 
     }
 
