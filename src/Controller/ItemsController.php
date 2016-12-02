@@ -59,7 +59,19 @@ class ItemsController extends AppController
                 $this->Flash->error(__('The item could not be saved. Please, try again.'));
             }
         }
-        $categories = $this->Items->Categories->find('list', ['limit' => 200]);
+
+        $sub_q = $this->Items->find()
+                  ->select(['id'])
+                  ->where(function ($exp, $q) {
+                    return $exp->equalFields('Categories.id', 'Items.category_id');
+                  });
+
+        $categories = $this->Items->Categories->find('list')->where(
+          function ($exp, $q) use ($sub_q) {
+            return $exp->Exists($sub_q);
+            }
+        );
+
         $this->set(compact('item', 'categories'));
         $this->set('_serialize', ['item']);
     }

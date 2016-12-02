@@ -354,4 +354,13 @@ class UsersController extends AppController
             return $this->redirect('/');
         }
     }
+
+    public function profile($id = null)
+    {
+        $user = $this->Users->get($id, [
+            'contain' => ['Needs', 'Offers']
+        ]);
+
+        $this->set('user', $user);
+    }
 }

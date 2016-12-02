@@ -1,8 +1,21 @@
+
+<style type="text/css">
+
+  body { 
+    background: url(../img/login_bg.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+
+</style>
+
 <div class="row">
   <div class="medium-6 medium-centered large-4 large-centered columns">
     
     <!-- Log In section --> 
-    <div class="row column log-in-form"  style="padding:1rem; margin-bottom: 10px; margin-top: 10px;">
+    <div class="row column log-in-form"  style="padding:1rem; margin-bottom: 10px; margin-top: 20%;">
       <?= $this->Form->create() ?>
       <fieldset>
       <h4 class="text-center"> Log In </h4>
