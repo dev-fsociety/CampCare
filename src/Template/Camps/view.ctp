@@ -34,22 +34,22 @@
 </div>
  -->
 
-<br> 
+<br>
 <div class="row">
-    
+
     <div class="large-9 columns">
 
         <h2> <?= h($camp->name) ?> </h2>
 
         <hr>
 
-        <p>Nombre de migrants : 10</p>
+        <p>Nombre de migrants : <?= $refugee_count ?></p>
 
         <p>Localisation : lng : <?= $this->Number->format($camp->lng) ?>, lat : <?= $this->Number->format($camp->lat) ?></p>
 
     </div>
     <div class="large-3 columns">
-        
+
     <?= $this->Html->link(__('Edit Camp'), ['action' => 'edit', $camp->id], array('class' => 'button expanded')) ?>
 
     </div>
@@ -66,7 +66,7 @@
 
             <?php foreach($camp->categories as $category): ?>
 
-                <li> <?= h($category->name) ?> <?= $this->Form->postLink(__('Delete'), ['controller' => 'Categories', 'action' => 'delete', $category->id], ['confirm' => __('Are you sure you want to delete : {0}?', $category->name)]) ?></li>
+                <li> <?= h($category->name) ?> <?= $this->Form->postLink(__('<i class="fi-x-circle"></i>'), ['controller' => 'Categories', 'action' => 'delete', $category->id], ['confirm' => __('Are you sure you want to delete : {0}?', $category->name), 'escape' => false]) ?></li>
 
             <?php endforeach; ?>
 
@@ -75,11 +75,10 @@
 
     </div>
     <div class="large-3 columns">
-        
+
         <?= $this->Html->link(__('New Category'), ['controller' => 'Categories', 'action' => 'add'], array('class' => 'button expanded')) ?>
 
     </div>
 
 
 </div>
-
