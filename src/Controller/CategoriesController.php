@@ -117,4 +117,11 @@ class CategoriesController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function list($id = null)
+    {
+        
+        $this->set('category', $category);
+        $this->set('_serialize', ['category']);
+    }
 }
