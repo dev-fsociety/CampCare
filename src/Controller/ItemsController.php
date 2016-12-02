@@ -54,22 +54,12 @@ class ItemsController extends AppController
             if ($this->Items->save($item)) {
                 $this->Flash->success(__('The item has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'camps' ,'action' => 'view', $this->Auth->user('camp_id') ]);
             } else {
                 $this->Flash->error(__('The item could not be saved. Please, try again.'));
             }
         }
-        // $sub_q = $this->Items->Categories->find()
-        //           ->select(['id'])
-        //           ->where(function ($exp, $q) {
-        //             return $exp->equalFields('Categories.id', 'Categories.category_id');
-        //           });
-        //
-        // $categories = $this->Items->Categories->find('list')->where(
-        //   function ($exp, $q) use ($sub_q) {
-        //     return $exp->NotExists($sub_q);
-        //     }
-        // );
+
         $query = ConnectionManager::get('default')->execute('SELECT * FROM categories as a WHERE NOT EXISTS
            (SELECT b.id FROM categories as b WHERE b.category_id = a.id)')->fetchAll('assoc');
 
@@ -169,6 +159,24 @@ class ItemsController extends AppController
     public function isAuthorized($user)
     {
         return isset($user) && $user['role'] === 0;
+    }
+
+    public function reset($id = null){
+        $item = $this->Items->get($id);
+
+        if (empty($item->toArray()))
+    		{
+          $this->Flash->error('Item your have tired to reset does not exist');
+          $this->redirect(['controller' => 'Camps' ,'action'=> 'view', $this->Auth->user('camp_id')]);
+    		}else{
+          $item->hot = 0;
+          if ($this->Items->save($item)) {
+              $this->Flash->success(__('The item has been reset.'));
+              $this->redirect(['controller' => 'Camps' ,'action'=> 'view', $this->Auth->user('camp_id')]);
+          } else {
+              $this->Flash->error(__('The item could not be reset. Please, try again.'));
+          }
+        }
     }
 
     public function initialize()

@@ -1,5 +1,5 @@
 <?php //debug($category); die(); ?>
-<h1 class="text-center">Help on getting <?= $category->name ?> in <?= $category->has('camp') ? $this->Html->link($category->camp->name, ['controller' => 'Camps', 'action' => 'view', $category->camp->id]) : '' ?></h1>
+<h1 class="text-center">Help on getting <?= $category->name ?> in <?= $category->has('camp') ? $category->camp->name : 'your area' ?></h1>
 
     <div class="related">
         <?php if (!empty($category->categories->toArray())): ?>
@@ -62,28 +62,33 @@
     </div>
     <div class="related">
         <?php if (!empty($category->posts)): ?>
-		<h4><?= __('Related Posts') ?></h4>
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Title') ?></th>
-                <th scope="col"><?= __('Body') ?></th>
-                <th scope="col"><?= __('Category Id') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-            <?php foreach ($category->posts as $posts): ?>
-            <tr>
-                <td><?= h($posts->id) ?></td>
-                <td><?= h($posts->title) ?></td>
-                <td><?= h($posts->body) ?></td>
-                <td><?= h($posts->category_id) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'Posts', 'action' => 'view', $posts->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'Posts', 'action' => 'edit', $posts->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Posts', 'action' => 'delete', $posts->id], ['confirm' => __('Are you sure you want to delete # {0}?', $posts->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
+
+		<div class="row">
+			<div class="column large-4 medium-3 small-1 text-center"><br/></div>
+			<div class="column large-4 medium-6 small-10 text-center">
+				<?=$this->Html->link('
+				 	<div class="row">
+						<div class="column large-2 medium-2 small-2 text-center">
+									' . $this->Html->image("icons/posts.svg", array("style" => "width: 2em; height: 2em;")) . '
+						</div>
+						<div class="column large-10 medium-10 small-10 text-center">
+								&nbsp; Read the '.count($category->posts).' posts concerning this topic
+						</div>
+					</div>',
+					[
+						'controller' => 'Posts',
+						'action' => 'by_category',
+						    $category->id
+					],
+					[
+						'escape' => false,
+						'class' => "button posts-button"
+					]);
+				?>
+			</div>
+			<div class="column large-4 medium-3 small-1 text-center"><br/></div>
+		</div>
         <?php endif; ?>
     </div>
+
+	<div class="row"> <br/> </div>
