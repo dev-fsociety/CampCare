@@ -122,6 +122,7 @@ h1 {
 	background: #53777A;
 }
 
+
 .square-color0:hover {
 	background: #a8243a;
 }
@@ -230,9 +231,15 @@ div.message.hidden {
     height: 0;
 }
 
+.bycat .square-container {
+	margin-top: 0%!important;
+}
 
 .cat-desc {
 	margin-top: 20%;
 	font-size: 2em;
+}
 
+.column {
+	padding: 0px;
 }
