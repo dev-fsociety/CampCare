@@ -346,4 +346,13 @@ class UsersController extends AppController
         $this->Flash->success('You are now logged out.');
         $this->redirect($this->Auth->logout());
     }
+
+    public function profile($id = null)
+    {
+        $user = $this->Users->get($id, [
+            'contain' => ['Needs', 'Offers']
+        ]);
+
+        $this->set('user', $user);
+    }
 }
