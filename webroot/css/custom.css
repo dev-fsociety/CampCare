@@ -72,3 +72,13 @@
 .square-content {
 	color: #fff;
 }
+
+.row .square-container {
+	margin-top: 0%;
+}
+
+.cat-desc {
+	margin-top: 20%;
+	font-size: 2em;
+
+}
