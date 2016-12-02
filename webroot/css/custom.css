@@ -188,6 +188,11 @@ h1 {
 		background-color : #DEDEDE;
 }
 
+.posts-button {
+	background: #53777A;
+}
+
+
 /* ------ posts/by_category.ctp ------ */
 
 .post {
