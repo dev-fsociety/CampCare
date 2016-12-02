@@ -31,7 +31,8 @@ $cakeDescription = 'CampCare';
     <?= $this->Html->css('icons/foundation-icons.css') ?>
     <?= $this->Html->css('custom.css') ?>
     <?= $this->Html->css('login.css') ?>
-
+    
+    
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
@@ -65,10 +66,18 @@ $cakeDescription = 'CampCare';
     <div class="container clearfix">
         <?= $this->fetch('content') ?>
     </div>
+    
     <footer>
-
-    <span class="copyright">Copyright NDI - Team /dev/fsociety</span>
-
+      <div class="row">
+          <a href=""><?= $this->Html->image('long_logo_gris.svg', array('class'=>'footer_logo')); ?></a>
+          <p class="links">
+            <a href="https://twitter.com/dev_fsociety">Twitter</a>
+            <a href="http://www.nuitdelinfo.com/">Nuit de l'Info</a>
+            <a href="https://github.com/dev-fsociety/DFS-2016">Git Hub</a>
+            <a href="#">About</a>
+          </p>
+          <p class="copywrite">Copywrite /DEV/FSOCIETY © 2016</p>
+      </div>
     </footer>
 
     <!-- JS Calls -->
@@ -77,10 +86,7 @@ $cakeDescription = 'CampCare';
     <?= $this->Html->script('vendor/foundation') ?>
     <?= $this->Html->script('custom') ?>
 
-
-
     <script>$(document).foundation();</script>
-
 
 </body>
 </html>

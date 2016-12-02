@@ -19,10 +19,13 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $users = $this->paginate($this->Users);
-
-        $this->set(compact('users'));
-        $this->set('_serialize', ['users']);
+        $user = $this->Auth->user();
+        if($user['role'] == 0)
+            return $this->redirect(['controller' => 'Camps', 'action' => 'view', $user['camp_id']]);
+        else if($user['role'] == 1)
+            return $this->redirect(['controller' => 'Users', 'action' => 'view', $user['id']]);
+        else if($user['role'] == 2)
+            return $this->redirect(['controller' => 'Categories', 'action' => 'index']);
     }
 
     /**
@@ -39,7 +42,6 @@ class UsersController extends AppController
         ]);
 
         $this->set('user', $user);
-        $this->set('_serialize', ['user']);
     }
 
     /**
