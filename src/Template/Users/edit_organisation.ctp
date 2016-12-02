@@ -12,8 +12,6 @@
             echo $this->Form->input('description', ['required'=>false]);
         ?>
     </fieldset>
-    <a type="submit" class="button expanded">
-      <?= $this->Form->button(__('Submit')) ?>
-    </a>
+      <?= $this->Form->button(__('Submit') , ['class' => 'button expanded'])?>
     <?= $this->Form->end() ?>
 </div>

@@ -51,3 +51,4 @@
         </ul>
         <p><?= $this->Paginator->counter() ?></p>
     </div>
+</div>

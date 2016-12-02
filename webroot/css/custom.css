@@ -26,28 +26,48 @@
 	margin-right: 5px;
 }
 
-.card {
+/* ------ Profile Page ------- */
+
+.profile {
   overflow: hidden;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   color: #272727;
   border-radius: 2px; }
 
-  .card .content {
+  .profile .content {
     padding: 1.3rem;
     border-radius: 0 0 2px 2px; }
 
-  .card p {
+  .profile .title {
+  	text-align: center;
+  }
+  .profile p {
     margin: 0; }
 
-  .card .action {
+  .profile .action {
     border-top: 1px solid rgba(160, 160, 160, 0.2);
     padding: 1.3rem; }
 
-  .card a {
+  .profile a {
     margin-right: 1.3rem;
     text-transform: uppercase;
     text-decoration: none; }
 
+  .event-date {
+  	width: 6rem;
+  	margin: 0 auto 1rem;
+  	width: auto; 
+	font-size: 0.2rem;}
+  .event-date .event-month {
+    margin: 0;
+    background: #eee;
+    padding: 0.2rem 0.5rem;
+    text-align: center; 
+	font-size: 1rem;
+	}
+  
+
+/* ------ Footer Style ------- */
 
 footer {
   background-color: #292c2f;
@@ -85,6 +105,7 @@ footer {
 		margin-top: 10px;
 	}
 
+/* ------ Copyright ------- */
 
 .copyright{
 	margin-left: 10px;
