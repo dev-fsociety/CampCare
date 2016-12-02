@@ -13,7 +13,7 @@
         ?>
     </fieldset>
      <a type="submit" class="button expanded">
-      <?= $this->Form->button(__('Submit')) ?>
+      <?= $this->Form->submit(__('Submit'), ['class' => 'button']) ?>
     </a>
     <?= $this->Form->end() ?>
 </div>
