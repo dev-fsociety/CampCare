@@ -133,7 +133,7 @@ class OffersController extends AppController
                 }
             }
             
-            if(in_array($this->request->action, ['view']))
+            if(in_array($this->request->action, ['view', 'index']))
             {
                 return true;
             }
