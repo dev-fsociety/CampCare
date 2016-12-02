@@ -111,8 +111,14 @@ class CampsController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public funtion isAuthorized($user)
+    public function isAuthorized($user)
     {
-        return (isset($user) && $user['role'] === 0);
+        return isset($user) && $user['role'] === 0;
+    }
+
+    public function initialize()
+    {
+        parent::initialize();
+        $this->Auth->allow(['action' => 'add']);
     }
 }
