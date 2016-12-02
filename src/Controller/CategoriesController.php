@@ -37,11 +37,11 @@ class CategoriesController extends AppController
     public function view($id = null)
     {
         $category = $this->Categories->get($id, [
-            'contain' => ['Camps', 'Categories', 'Items', 'Posts']
+            'contain' => ['Camps', 'Items', 'Posts']
         ]);
 
         $category->categories = $this->Categories->find()->where(['category_id' => $id]);
-        $category->items = $this->Categories->Items->find()->where(['category_id' => $id]);
+      //  $category->items = $this->Categories->Items->find()->where(['category_id' => $id]);
 
         $this->set(compact('category'));
         $this->set('_serialize', ['category']);
