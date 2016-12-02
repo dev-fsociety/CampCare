@@ -122,4 +122,35 @@ class PostsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function isAuthorized($user)
+    {
+        if(isset($user))
+        {
+            if($user['role'] === 0 || $user['role'] === 1)
+            {
+                if(in_array($this->request->action, ['edit', 'delete']) && (int)$this->request->params['pass'][0] === $user['id'])
+                {
+                    return true;
+                }
+
+                if(in_array($this->request->action, ['add']))
+                {
+                    return true;
+                }
+            }
+            
+            if(in_array($this->request->action, ['view', 'index']))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function initialize()
+    {
+        parent::initialize();
+    }
 }

@@ -1,3 +1,15 @@
+<style type="text/css">
+
+  body {
+    background: url(../img/login_bg.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+
+</style>
+
 <div class="log-in-form medium-6 medium-centered large-4 large-centered columns">
     <?= $this->Form->create($user) ?>
     <fieldset>

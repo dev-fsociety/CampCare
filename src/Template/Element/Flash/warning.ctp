@@ -11,5 +11,5 @@ if (!isset($params['escape']) || $params['escape'] !== false) {
 </div>
 
 <script>
-	setTimeout('$(".alert").slideUp()', 5000)
+	setTimeout('$(".warning").slideUp()', 5000)
 </script>

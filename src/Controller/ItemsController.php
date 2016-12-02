@@ -157,6 +157,11 @@ class ItemsController extends AppController
 
     }
 
+    public function isAuthorized($user)
+    {
+        return isset($user) && $user['role'] === 0;
+    }
+
     public function reset($id = null){
         $item = $this->Items->get($id);
 
@@ -173,11 +178,10 @@ class ItemsController extends AppController
               $this->Flash->error(__('The item could not be reset. Please, try again.'));
           }
         }
-
-
-
     }
 
-
-
+    public function initialize()
+    {
+        parent::initialize();
+    }
 }

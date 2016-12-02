@@ -131,4 +131,15 @@ class CategoriesController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function isAuthorized($user)
+    {
+        return isset($user) && $user['role'] === 0;
+    }
+
+    public function initialize()
+    {
+        parent::initialize();
+        $this->Auth->allow(['index', 'view']);
+    }
 }

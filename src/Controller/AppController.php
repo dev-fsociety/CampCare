@@ -70,8 +70,6 @@ class AppController extends Controller
                 'controller' => 'Categories',
                 'action' => 'index'
             ]
-
-            // --> DON'T FORGET TO CHANGE THE REDIRECTION TOWARDS "CATEGORIES -> INDEX" TO A REAL HOMEPAGE
         ]);
 
         $this->Auth->deny();
@@ -79,7 +77,7 @@ class AppController extends Controller
 
     public function isAuthorized($user)
     {
-        return isset($user);
+        return isset($user) && $user['id'] === 0;
     }
 
     /**
