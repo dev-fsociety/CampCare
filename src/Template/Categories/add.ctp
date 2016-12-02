@@ -15,7 +15,7 @@
 <div class="categories form large-9 medium-8 columns content">
     <?= $this->Form->create($category) ?>
     <fieldset>
-        <legend><?= __('Add Category') ?></legend>
+        <h4 class="text-center"> Add a category </h4>
         <?php
             echo $this->Form->input('name');
             echo $this->Form->input('category_id', [ 'options' => $categories, 'empty' => true]);
@@ -23,6 +23,6 @@
 
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Submit'), ['class' => 'button']) ?>
     <?= $this->Form->end() ?>
 </div>
