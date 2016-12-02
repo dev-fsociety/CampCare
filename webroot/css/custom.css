@@ -226,3 +226,13 @@ div.message.error:before {
 div.message.hidden {
     height: 0;
 }
+
+.row .square-container {
+	margin-top: 0%;
+}
+
+.cat-desc {
+	margin-top: 20%;
+	font-size: 2em;
+
+}
