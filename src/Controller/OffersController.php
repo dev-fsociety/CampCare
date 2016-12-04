@@ -10,6 +10,37 @@ use App\Controller\AppController;
  */
 class OffersController extends AppController
 {
+    public function isOwnedBy($params, $user)
+    {
+        return $this->Offers->find()->where(['id' => $params['pass'][0]])->first()->user_id === (int)$user['id'];
+    }
+
+    public function isAuthorized($user)
+    {
+        if(isset($user))
+        {
+            if($user['role'] === 0 || $user['role'] === 1)
+            {
+                if(in_array($this->request->action, ['edit', 'delete']) && $this->isOwnedBy($this->request->params, $user))
+                {
+                    return true;
+                }
+
+                if(in_array($this->request->action, ['add']))
+                {
+                    return true;
+                }
+            }
+            
+            if(in_array($this->request->action, ['view', 'index']))
+            {
+                return true;
+            }
+        }
+
+        $this->Flash->warning('You can\'t access this offer !');
+        return false;
+    }
 
     /**
      * Index method
@@ -57,13 +88,21 @@ class OffersController extends AppController
             if ($this->Offers->save($offer)) {
                 $this->Flash->success(__('The offer has been saved.'));
 
-                return $this->redirect(['controller' => 'Users', 'action' => 'view', $offer->user_id]);
+                return $this->redirect(['controller' => 'Users', 'action' => 'index']);
             } else {
                 $this->Flash->error(__('The offer could not be saved. Please, try again.'));
             }
         }
 
-        $items = $this->Offers->Items->find('list', ['limit' => 200]);
+        // Here we 'force' the query to be executed right now with the 'all()'
+        $items = $this->Offers->Items->find('list')->all();
+
+        if((int)$items->count() === 0)
+        {
+            $this->Flash->warning('You can\'t add an offer yet because there is not any item created.');
+            $this->redirect($this->referer());
+        }
+
         $offer->user_id = $user_id;
         $this->set(compact('offer', 'users', 'items'));
         $this->set('_serialize', ['offer']);
@@ -86,13 +125,14 @@ class OffersController extends AppController
             if ($this->Offers->save($offer)) {
                 $this->Flash->success(__('The offer has been saved.'));
 
-                return $this->redirect(['controller' => 'Users', 'action' => 'view', $offer->user_id]);
+                return $this->redirect(['controller' => 'Users', 'action' => 'index']);
             } else {
                 $this->Flash->error(__('The offer could not be saved. Please, try again.'));
             }
         }
-        $users = $this->Offers->Users->find('list', ['limit' => 200]);
-        $items = $this->Offers->Items->find('list', ['limit' => 200]);
+
+        $users = $this->Offers->Users->find('list');
+        $items = $this->Offers->Items->find('list');
         $this->set(compact('offer', 'users', 'items'));
         $this->set('_serialize', ['offer']);
     }
@@ -114,37 +154,6 @@ class OffersController extends AppController
             $this->Flash->error(__('The offer could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['controller' => 'Users', 'action' => 'view', $offer->user_id]);
-    }
-
-    public function isAuthorized($user)
-    {
-        if(isset($user))
-        {
-            if($user['role'] === 0 || $user['role'] === 1)
-            {
-                if(in_array($this->request->action, ['edit', 'delete']) && (int)$this->request->params['pass'][0] === $user['id'])
-                {
-                    return true;
-                }
-
-                if(in_array($this->request->action, ['add']))
-                {
-                    return true;
-                }
-            }
-            
-            if(in_array($this->request->action, ['view', 'index']))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public function initialize()
-    {
-        parent::initialize();
+        return $this->redirect(['controller' => 'Users', 'action' => 'index']);
     }
 }

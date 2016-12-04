@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use Cake\Event\Event;
 use App\Controller\AppController;
 
 /**
@@ -10,6 +11,21 @@ use App\Controller\AppController;
  */
 class CategoriesController extends AppController
 {
+    public function isAuthorized($user)
+    {
+        if(isset($user) && $user['role'] === 0)
+        {
+            return true;
+        }
+
+        return parent::isAuthorized($user);
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['view']);
+    }
 
     /**
      * Index method
@@ -130,16 +146,5 @@ class CategoriesController extends AppController
         }
 
         return $this->redirect(['controller' => 'Camps', 'action' => 'view', $category->camp_id]);
-    }
-
-    public function isAuthorized($user)
-    {
-        return isset($user) && $user['role'] === 0;
-    }
-
-    public function initialize()
-    {
-        parent::initialize();
-        $this->Auth->allow(['index', 'view']);
     }
 }

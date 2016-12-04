@@ -11,6 +11,77 @@ use App\Controller\AppController;
  */
 class UsersController extends AppController
 {
+    public function login()
+    {
+        if($this->request->session()->read('Auth.User.id') != null)
+        {
+            $this->Flash->warning('You are already logged in.');
+            return $this->redirect(['controller' => 'Categories', 'action' => 'index']);
+        }
+
+        if($this->request->is('post'))
+        {
+            $user = $this->Auth->identify();
+
+            if($user)
+            {
+                $this->Auth->setUser($user);
+                $this->Flash->success('Your are now logged in.');
+                return $this->redirect('/');
+            }
+
+            $this->Flash->error('Your username or password is incorrect.');
+        }
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['logout', 'subscribeRefugee', 'subscribeDonor', /* TO REMOVE WHEN LEAVING PRODUCTION --> */ 'subscribeOrganisation']);
+    }
+
+    public function isAuthorized($user)
+    {
+        if(isset($user))
+        {
+            if(in_array($this->request->action, ['editOrganisation', 'editDonor', 'editRefugee', 'delete', 'view']))
+            {
+                if((int)$this->request->params['pass'][0] === $user['id'])
+                {
+                    return true;
+                }
+
+                // Here we always block the user, 'cause there is no admin, nobody could alter, delete nor view a user if it's not his own
+                else
+                {
+                    $this->Flash->warning('You can\'t perform any operation on an user that is not yours.');
+                    return false;
+                }
+            }
+
+            else if(in_array($this->request->action, ['index']))
+            {
+                return true;
+            }
+        }
+
+        return parent::isAuthorized($user);
+    }
+
+    public function logout()
+    {
+        if($this->request->session()->read('Auth.User.id') != null)
+        {
+            $this->Flash->success('You are now logged out.');
+            return $this->redirect($this->Auth->logout());
+        }
+
+        else
+        {
+            $this->Flash->warning('You can\'t logout because you\'re not connected.');
+            return $this->redirect('/');
+        }
+    }
 
     /**
      * Index method
@@ -21,11 +92,17 @@ class UsersController extends AppController
     {
         $user = $this->Auth->user();
         if($user['role'] == 0)
+        {
             return $this->redirect(['controller' => 'Camps', 'action' => 'view', $user['camp_id']]);
+        }
         else if($user['role'] == 1)
+        {
             return $this->redirect(['controller' => 'Users', 'action' => 'view', $user['id']]);
+        }
         else if($user['role'] == 2)
+        {
             return $this->redirect(['controller' => 'Categories', 'action' => 'index']);
+        }
     }
 
     /**
@@ -56,14 +133,10 @@ class UsersController extends AppController
             $user = $this->Users->patchEntity($user, $this->request->data);
 
             $user->role = 2;
-            $user->firstname = null;
-            $user->name = null;
-            $user->email = null;
-            $user->phone = null;
 
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
-
+                $this->Auth->setUser($user);
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The user could not be saved. Please, try again.'));
@@ -92,7 +165,7 @@ class UsersController extends AppController
 
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
-
+                $this->Auth->setUser($user);
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The user could not be saved. Please, try again.'));
@@ -123,7 +196,7 @@ class UsersController extends AppController
 
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
-
+                $this->Auth->setUser($user);
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The user could not be saved. Please, try again.'));
@@ -294,69 +367,6 @@ class UsersController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
-    }
-
-    public function login()
-    {
-        if($this->request->session()->read('Auth.User.id') != null)
-        {
-            $this->Flash->warning('You are already logged in.');
-            return $this->redirect(['controller' => 'Categories', 'action' => 'index']);
-        }
-
-        if($this->request->is('post'))
-        {
-            $user = $this->Auth->identify();
-
-            if($user)
-            {
-                $this->Auth->setUser($user);
-                $this->Flash->success('Your are now logged in.');
-                return $this->redirect($this->Auth->redirectUrl());
-            }
-
-            $this->Flash->error('Your username or password is incorrect.');
-        }
-    }
-
-    public function initialize()
-    {
-        parent::initialize();
-
-        $this->Auth->allow(['logout', 'subscribeRefugee', 'subscribeDonor', 'subscribeOrganisation' /* TO REMOVE WHEN LEAVING PRODUCTION */]);
-    }
-
-    public function isAuthorized($user)
-    {
-        if(isset($user))
-        {
-            if(in_array($this->request->action, ['editOrganisation', 'editDonor', 'editRefugee', 'delete', 'view']))
-            {
-                if((int)$this->request->params['pass'][0] === $user['id'])
-                {
-                    return true;
-                }
-            }
-            else if(in_array($this->request->action, ['index']))
-                return true;
-        }
-
-        return false;
-    }
-
-    public function logout()
-    {
-        if($this->request->session()->read('Auth.User.id') != null)
-        {
-            $this->Flash->success('You are now logged out.');
-            return $this->redirect($this->Auth->logout());
-        }
-
-        else
-        {
-            $this->Flash->warning('You can\'t logout because you\'re not connected.');
-            return $this->redirect('/');
-        }
     }
 
     public function profile($id = null)

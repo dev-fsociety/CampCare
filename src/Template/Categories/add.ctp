@@ -7,7 +7,7 @@
                     <h4 class="text-center"> Add a category </h4>
                     <?php
                         echo $this->Form->input('name');
-                        echo $this->Form->input('category_id', [ 'options' => $categories, 'empty' => true]);
+                        echo $this->Form->input('category_id', ['options' => $categories, 'empty' => true, 'label' => 'Choose a parent category, or let empty in order to create a new one !']);
                         echo $this->Form->hidden('camp_id', ['type' => 'number' , 'default' => $camp]);
                     ?>
                 </fieldset>

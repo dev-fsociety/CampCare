@@ -54,7 +54,7 @@ $cakeDescription = 'CampCare';
             <div class="top-bar-right">
               <ul class="menu">
                 <?php if($this->request->session()->read('Auth.User.id') != null): ?>
-                <li><a href="<?= $this->Url->build('/users', true); ?>" class="profile_icon"><i class="fi-torso icon_fix"></i></a></li>
+                <li><a href="<?= $this->Url->build('/users/index', true); ?>" class="profile_icon"><i class="fi-torso icon_fix"></i></a></li>
                 <li><a href="<?= $this->Url->build('/users/logout', true); ?>" class="profile_icon"><i class="fi-power"></i></a></li>
                 <?php endif; ?>
               </ul>

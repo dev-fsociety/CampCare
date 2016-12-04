@@ -7,11 +7,6 @@
                 ['confirm' => __('Are you sure you want to delete # {0}?', $offer->id)]
             )
         ?></li>
-        <li><?= $this->Html->link(__('List Offers'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Items'), ['controller' => 'Items', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Item'), ['controller' => 'Items', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="offers form large-9 medium-8 columns content">
@@ -24,6 +19,6 @@
             echo $this->Form->input('event_date');
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->submit(__('Submit'), ['class' => 'button']) ?>
     <?= $this->Form->end() ?>
 </div>

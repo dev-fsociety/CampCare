@@ -1,4 +1,4 @@
-# FSite
+# CampCare
 
 Site de l'équipe /dev/fsociety pour la [Nuit de l'Info édition 2016](http://www.nuitdelinfo.com/)
 

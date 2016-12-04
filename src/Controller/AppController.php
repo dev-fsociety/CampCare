@@ -53,11 +53,7 @@ class AppController extends Controller
                     ]
                 ]
             ],
-            'authorize' => 'Controller',
-            'loginAction' => [
-                'controller' => 'Users',
-                'action' => 'login'
-            ],
+            'authorize' => ['Controller'],
             'loginRedirect' => [
                 'controller' => 'Users',
                 'action' => 'index'
@@ -65,19 +61,24 @@ class AppController extends Controller
             'logoutRedirect' => [
                 'controller' => 'Users',
                 'action' => 'login'
-            ],
-            'unauthorizedRedirect' => [
-                'controller' => 'Categories',
-                'action' => 'index'
             ]
         ]);
+    }
 
+    public function beforeFilter(Event $event)
+    {
         $this->Auth->deny();
     }
 
     public function isAuthorized($user)
     {
-        return isset($user) && $user['id'] === 0;
+        if(isset($user) && $user['id'] === 0)
+        {
+            return true;
+        }
+
+        $this->Flash->warning(__('You\'re not allowed to access this page.'));
+        return false;
     }
 
     /**
@@ -95,6 +96,8 @@ class AppController extends Controller
         }
 
         if(isset($this->Auth))
+        {
             $this->set('loggedUser', $this->Auth->user());
+        }
     }
 }

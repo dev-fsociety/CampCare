@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use Cake\Event\Event;
 use App\Controller\AppController;
 use Cake\Datasource\ConnectionManager;
 /**
@@ -10,6 +11,21 @@ use Cake\Datasource\ConnectionManager;
  */
 class CampsController extends AppController
 {
+    public function isAuthorized($user)
+    {
+        if(isset($user) && $user['role'] === 0)
+        {
+            return true;
+        }
+
+        return parent::isAuthorized($user);
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['add']);
+    }
 
     /**
      * Index method
@@ -124,16 +140,5 @@ class CampsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
-    }
-
-    public function isAuthorized($user)
-    {
-        return isset($user) && $user['role'] === 0;
-    }
-
-    public function initialize()
-    {
-        parent::initialize();
-        $this->Auth->allow(['action' => 'add']);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use Cake\Event\Event;
 use App\Controller\AppController;
 use Cake\Datasource\ConnectionManager;
 /**
@@ -10,6 +11,15 @@ use Cake\Datasource\ConnectionManager;
  */
 class ItemsController extends AppController
 {
+    public function isAuthorized($user)
+    {
+        if(isset($user) && $user['role'] === 0)
+        {
+            return true;
+        }
+
+        return parent::isAuthorized($user);
+    }
 
     /**
      * Index method
@@ -60,21 +70,31 @@ class ItemsController extends AppController
             }
         }
 
-        $query = ConnectionManager::get('default')->execute('SELECT * FROM categories as a WHERE NOT EXISTS
-           (SELECT b.id FROM categories as b WHERE b.category_id = a.id)')->fetchAll('assoc');
+        $query = ConnectionManager::get('default')->execute('SELECT * FROM categories as a WHERE NOT EXISTS (SELECT b.id FROM categories as b WHERE b.category_id = a.id)')->fetchAll('assoc');
 
         $categories;
-           foreach ($query as $key => $value) {
-             $id;
-             $name;
-             foreach ($value as $field => $data) {
-               if($field ==  'id')
-                  $id = $data;
-               if($field == 'name')
-                  $name = $data;
-             }
-             $categories[$id] = $name;
-           }
+
+		foreach ($query as $key => $value)
+		{
+		    $id;
+		    $name;
+
+		    foreach ($value as $field => $data)
+		    {
+				if($field ==  'id')
+					$id = $data;
+				if($field == 'name')
+					$name = $data;
+		    }
+
+		    $categories[$id] = $name;
+		}
+
+        if($categories === null)
+        {
+            $this->Flash->warning('You can\'t add an item yet because there is not any category created. Here, you can add one !');
+            $this->redirect(['controller' => 'Categories', 'action' => 'add']);
+        }
 
         $this->set(compact('item', 'categories'));
         $this->set('_serialize', ['item']);
@@ -156,11 +176,6 @@ class ItemsController extends AppController
 
     }
 
-    public function isAuthorized($user)
-    {
-        return isset($user) && $user['role'] === 0;
-    }
-
     public function reset($id = null){
         $item = $this->Items->get($id);
 
@@ -177,10 +192,5 @@ class ItemsController extends AppController
               $this->Flash->error(__('The item could not be reset. Please, try again.'));
           }
         }
-    }
-
-    public function initialize()
-    {
-        parent::initialize();
     }
 }
