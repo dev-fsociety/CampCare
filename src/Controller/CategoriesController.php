@@ -77,6 +77,7 @@ class CategoriesController extends AppController
                 $this->Flash->success(__('The category has been saved.'));
 
                 return $this->redirect(['controller' => 'Camps', 'action' => 'view', $category->camp_id]);
+
             } else {
                 $this->Flash->error(__('The category could not be saved. Please, try again.'));
             }
@@ -119,12 +120,26 @@ class CategoriesController extends AppController
                 $this->Flash->success(__('The category has been saved.'));
 
                 return $this->redirect(['controller' => 'Camps', 'action' => 'view', $category->camp_id]);
+
             } else {
                 $this->Flash->error(__('The category could not be saved. Please, try again.'));
             }
         }
         $camps = $this->Categories->Camps->find('list', ['limit' => 200]);
-        $this->set(compact('category', 'camps'));
+
+        $sub_q = $this->Categories->Items->find()
+                  ->select(['id'])
+                  ->where(function ($exp, $q) {
+                    return $exp->equalFields('Categories.id', 'Items.category_id');
+                  });
+
+        $categories = $this->Categories->find('list')->where(
+          function ($exp, $q) use ($sub_q) {
+            return $exp->notExists($sub_q);
+            }
+        );
+
+        $this->set(compact('category', 'camps','categories'));
         $this->set('_serialize', ['category']);
     }
 
@@ -146,5 +161,6 @@ class CategoriesController extends AppController
         }
 
         return $this->redirect(['controller' => 'Camps', 'action' => 'view', $category->camp_id]);
+
     }
 }

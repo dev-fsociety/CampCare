@@ -9,16 +9,16 @@
         ?></li>
     </ul>
 </nav>
-<div class="camps form large-9 medium-8 columns content">
+<div class="items form large-centered large-4 medium-3 medium-centered columns content">
     <?= $this->Form->create($camp) ?>
     <fieldset>
-        <legend><?= __('Edit Camp') ?></legend>
+        <h4><?= __('Edit Camp') ?></h4>
         <?php
             echo $this->Form->input('name');
             echo $this->Form->input('lng');
             echo $this->Form->input('lat');
         ?>
     </fieldset>
-    <?= $this->Form->submit(__('Submit'), ['class' => 'button']) ?>
+    <?= $this->Form->button(__('Submit'), ['class' => 'button expanded']) ?>
     <?= $this->Form->end() ?>
 </div>

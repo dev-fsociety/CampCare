@@ -82,7 +82,7 @@ class NeedsController extends AppController
 			ConnectionManager::get('default')->execute('UPDATE items SET hot=hot +1 WHERE id = :id',['id'=> $id]);
 			$data = ['user_id' => $this->Auth->user('id'), 'item_id' => $id, Time::now()];
 			$need = $this->Needs->patchEntity($need, $data);
-			if ($this->Needs->save($need)) 
+			if ($this->Needs->save($need))
 			{
 				$this->Flash->success(__('The need has been saved.'));
 

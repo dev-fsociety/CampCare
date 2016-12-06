@@ -10,6 +10,6 @@
             echo $this->Form->input('cooldown', ['label' => 'Cooldown (in days)']);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit'), ['class' => 'button']) ?>
+    <?= $this->Form->button(__('Submit'), ['class' => 'button expanded']) ?>
     <?= $this->Form->end() ?>
 </div>

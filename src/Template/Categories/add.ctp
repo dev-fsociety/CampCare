@@ -11,7 +11,7 @@
                         echo $this->Form->hidden('camp_id', ['type' => 'number' , 'default' => $camp]);
                     ?>
                 </fieldset>
-        <?= $this->Form->button(__('Submit'), ['class' => 'button large']) ?>
+        <?= $this->Form->button(__('Submit'), ['class' => 'button expanded']) ?>
         </div>
         <div class="large-2 medium-3 columns" id="blank"><br></div>
                 <?= $this->Form->end() ?>
