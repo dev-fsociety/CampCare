@@ -1,3 +1,14 @@
+<nav class="large-3 medium-4 columns" id="actions-sidebar">
+    <ul class="side-nav">
+        <li class="heading"><?= __('Actions') ?></li>
+        <li><?= $this->Form->postLink(
+                __('Delete'),
+                ['action' => 'delete', $user->id],
+                ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]
+            )
+        ?></li>
+    </ul>
+</nav>
 <div class="log-in-form medium-6 medium-centered large-4 large-centered columns">    
     <?= $this->Form->create($user) ?>
     <fieldset>

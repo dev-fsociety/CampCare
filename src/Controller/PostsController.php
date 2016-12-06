@@ -19,7 +19,7 @@ class PostsController extends AppController
     {
         if(isset($user))
         {
-            if($user['role'] === 0 || $user['role'] === 1)
+            if($user['role'] === 0)
             {
                 if(in_array($this->request->action, ['edit', 'delete']) && $this->isOwnedBy($this->request->params, $user))
                 {

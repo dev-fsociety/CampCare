@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use Cake\Event\Event;
 use App\Controller\AppController;
+use Cake\Datasource\ConnectionManager;
 
 /**
  * Users Controller
@@ -16,7 +17,7 @@ class UsersController extends AppController
         if($this->request->session()->read('Auth.User.id') != null)
         {
             $this->Flash->warning('You are already logged in.');
-            return $this->redirect(['controller' => 'Categories', 'action' => 'index']);
+            return $this->redirect(['action' => 'index']);
         }
 
         if($this->request->is('post'))
@@ -27,7 +28,7 @@ class UsersController extends AppController
             {
                 $this->Auth->setUser($user);
                 $this->Flash->success('Your are now logged in.');
-                return $this->redirect('/');
+                return $this->redirect($this->Auth->redirectUrl());
             }
 
             $this->Flash->error('Your username or password is incorrect.');
@@ -37,14 +38,15 @@ class UsersController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow(['logout', 'subscribeRefugee', 'subscribeDonor', /* TO REMOVE WHEN LEAVING PRODUCTION --> */ 'subscribeOrganisation']);
+
+        $this->Auth->allow(['logout', 'subscribeRefugee', 'subscribeDonor', /* TO REMOVE WHEN LEAVING PRODUCTION --> */ 'subscribeOrganization']);
     }
 
     public function isAuthorized($user)
     {
         if(isset($user))
         {
-            if(in_array($this->request->action, ['editOrganisation', 'editDonor', 'editRefugee', 'delete', 'view']))
+            if(in_array($this->request->action, ['editOrganization', 'editDonor', 'editRefugee', 'delete', 'view']))
             {
                 if((int)$this->request->params['pass'][0] === $user['id'])
                 {
@@ -91,13 +93,14 @@ class UsersController extends AppController
     public function index()
     {
         $user = $this->Auth->user();
+
         if($user['role'] == 0)
         {
             return $this->redirect(['controller' => 'Camps', 'action' => 'view', $user['camp_id']]);
         }
         else if($user['role'] == 1)
         {
-            return $this->redirect(['controller' => 'Users', 'action' => 'view', $user['id']]);
+            return $this->redirect(['action' => 'view', $user['id']]);
         }
         else if($user['role'] == 2)
         {
@@ -128,6 +131,12 @@ class UsersController extends AppController
      */
     public function subscribeRefugee()
     {
+        if($this->request->session()->read('Auth.User.id') != null)
+        {
+            $this->Flash->warning('You are already logged in, thus you can\'t create a new user directly. Please use the disconnection button to log out.');
+            return $this->redirect($this->referer());
+        }
+
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->data);
@@ -151,6 +160,12 @@ class UsersController extends AppController
 
     public function subscribeDonor()
     {
+        if($this->request->session()->read('Auth.User.id') != null)
+        {
+            $this->Flash->warning('You are already logged in, thus you can\'t create a new user directly. Please use the disconnection button to log out.');
+            return $this->redirect($this->referer());
+        }
+
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->data);
@@ -180,8 +195,14 @@ class UsersController extends AppController
         $this->set('_serialize', ['user']);
     }
 
-    public function subscribeOrganisation()
+    public function subscribeOrganization()
     {
+        if($this->request->session()->read('Auth.User.id') != null)
+        {
+            $this->Flash->warning('You are already logged in, thus you can\'t create a new user directly. Please use the disconnection button to log out.');
+            return $this->redirect($this->referer());
+        }
+
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->data);
@@ -191,7 +212,7 @@ class UsersController extends AppController
             if($user->firstname == null || $user->email == null || $user->phone == null)
             {
                 $this->Flash->error(__('The user could not be saved. You\'ve forgotten to fill in some fields.'));
-                return $this->redirect(['action' => 'subscribeOrganisation']);
+                return $this->redirect(['action' => 'subscribeOrganization']);
             }
 
             if ($this->Users->save($user)) {
@@ -229,7 +250,7 @@ class UsersController extends AppController
         {
             if($user['role'] === 0)
             {
-                return $this->redirect(['action' => 'editOrganisation', $id]);
+                return $this->redirect(['action' => 'editOrganization', $id]);
             }
 
             if($user['role'] === 1)
@@ -253,9 +274,9 @@ class UsersController extends AppController
         }
 
         $user->role = 2;
+        $camps = $this->Users->Camps->find('list');
 
-        $this->set(compact('user'));
-        $this->set('_serialize', ['user']);
+        $this->set(compact('user','camps'));
     }
 
     public function editDonor($id = null)
@@ -268,7 +289,7 @@ class UsersController extends AppController
         {
             if($user['role'] === 0)
             {
-                return $this->redirect(['action' => 'editOrganisation', $id]);
+                return $this->redirect(['action' => 'editOrganization', $id]);
             }
 
             if($user['role'] === 2)
@@ -303,7 +324,7 @@ class UsersController extends AppController
         $this->set('_serialize', ['user']);
     }
 
-    public function editOrganisation($id = null)
+    public function editOrganization($id = null)
     {
         $user = $this->Users->get($id, [
             'contain' => []
@@ -330,7 +351,7 @@ class UsersController extends AppController
             if($user->firstname == null || $user->email == null || $user->phone == null)
             {
                 $this->Flash->error(__('The user could not be saved. You\'ve forgotten to fill in some fields.'));
-                return $this->redirect(['action' => 'editOrganisation', $id]);
+                return $this->redirect(['action' => 'editOrganization', $id]);
             }
 
             if ($this->Users->save($user)) {

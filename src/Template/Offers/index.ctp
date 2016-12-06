@@ -36,7 +36,7 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    <div class="paginator">
+    <div class="paginator text-center">
         <ul class="pagination">
             <?= $this->Paginator->prev('< ' . __('previous')) ?>
             <?= $this->Paginator->numbers() ?>

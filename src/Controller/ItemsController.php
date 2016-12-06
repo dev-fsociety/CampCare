@@ -4,6 +4,7 @@ namespace App\Controller;
 use Cake\Event\Event;
 use App\Controller\AppController;
 use Cake\Datasource\ConnectionManager;
+
 /**
  * Items Controller
  *
@@ -13,9 +14,17 @@ class ItemsController extends AppController
 {
     public function isAuthorized($user)
     {
-        if(isset($user) && $user['role'] === 0)
+        if(isset($user))
         {
-            return true;
+            if($user['role'] === 0)
+            {
+                return true;
+            }
+
+            if($user['role'] === 2 && in_array($this->request->action, ['process']))
+            {
+                return true;
+            }
         }
 
         return parent::isAuthorized($user);
@@ -167,13 +176,12 @@ class ItemsController extends AppController
       if( empty($r) ){
         //No result we have to create the needs
         // add a needs for the item indentified by $id
-        return $this->redirect(['controller' => 'needs','action' => 'add', $id]);
+        return $this->redirect(['controller' => 'needs', 'action' => 'add', $id]);
       }else{
         //redirect the user to the needs view
         //$r[0]->id is the id of the offer
-        return $this->redirect(['controller' => 'offers','action' => 'view', $r[0]->id]);
+        return $this->redirect(['controller' => 'offers', 'action' => 'view', $r[0]->id]);
       }
-
     }
 
     public function reset($id = null){

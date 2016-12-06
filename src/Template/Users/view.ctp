@@ -40,7 +40,7 @@
 
                     <div class="post-desc">
                         <h4 class="post-desc-header">Item N°<?= h($offers->item_id) ?></h4>
-                        <p class="post-desc-detail">Creation date:<?= h($offers->created) ?></p>
+                        <p class="post-desc-detail">Creation date : <?= h($offers->created) ?></p>
 
                         <td class="actions" style="text-align:right;">
                             <?= $this->Html->link(__('Edit'), ['controller' => 'Offers', 'action' => 'edit', $offers->id]) ?>

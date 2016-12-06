@@ -77,6 +77,10 @@ class ItemsTable extends Table
 
         $validator
             ->integer('cooldown')
+            ->add('cooldown', 'value', [
+                'rule' => ['comparison', '>=', 0],
+                'message' => 'The cooldown could only be positive !'
+            ])
             ->requirePresence('cooldown', 'create')
             ->notEmpty('cooldown');
 

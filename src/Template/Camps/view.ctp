@@ -13,6 +13,7 @@
     </div>
     <div class="large-3 columns">
 
+    <?= $this->Html->link(__('Edit Organization'), ['controller' => 'Users', 'action' => 'edit_organization', $this->request->session()->read('Auth.User.id')], array('class' => 'button expanded')) ?>
     <?= $this->Html->link(__('Edit Camp'), ['action' => 'edit', $camp->id], array('class' => 'button expanded')) ?>
 
     </div>
@@ -50,8 +51,6 @@
               echo '</li>';
 
           }
-
-
          ?>
        </ul>
 
@@ -61,5 +60,6 @@
 
         <?= $this->Html->link(__('New Category'), ['controller' => 'Categories', 'action' => 'add'], array('class' => 'button expanded')) ?>
         <?= $this->Html->link(__('New Item'), ['controller' => 'Items', 'action' => 'add'], array('class' => 'button expanded')) ?>
+        <?= $this->Html->link(__('New Post'), ['controller' => 'Posts', 'action' => 'add'], array('class' => 'button expanded')) ?>
     </div>
 </div>

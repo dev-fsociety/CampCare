@@ -11,10 +11,22 @@ use Cake\Datasource\ConnectionManager;
  */
 class CampsController extends AppController
 {
+    public function isOwnedBy($params, $user)
+    {
+        return ConnectionManager::get('default')->execute('SELECT * FROM users WHERE (users.camp_id = ' . $params['pass'][0] . ' AND users.id = ' . $user['id'] . ')')->count();
+    }
+
     public function isAuthorized($user)
     {
         if(isset($user) && $user['role'] === 0)
         {
+            // This can be changed. With this implementation, an organization can't list the camps, nor view, edit, or delete another one.
+            if(in_array($this->request->action, ['index']) || (in_array($this->request->action, ['view', 'edit', 'delete']) && !$this->isOwnedBy($this->request->params, $user)))
+            {
+                $this->Flash->warning('You can\'t perform this operation with this implementation. Contact your website manager in order to change that.');
+                return $this->redirect(['controller' => 'Users', 'action' => 'index']);
+            }
+
             return true;
         }
 
@@ -87,7 +99,7 @@ class CampsController extends AppController
             if ($this->Camps->save($camp)) {
                 $this->Flash->success(__('The camp has been saved.'));
 
-                return $this->redirect(['controller' => 'Users', 'action' => 'subscribe_organisation']);
+                return $this->redirect(['controller' => 'Users', 'action' => 'subscribe_organization']);
             } else {
                 $this->Flash->error(__('The camp could not be saved. Please, try again.'));
             }
@@ -139,6 +151,6 @@ class CampsController extends AppController
             $this->Flash->error(__('The camp could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['controller' => 'Users', 'action' => 'index']);
     }
 }

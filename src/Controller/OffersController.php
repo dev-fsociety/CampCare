@@ -17,6 +17,7 @@ class OffersController extends AppController
 
     public function isAuthorized($user)
     {
+        // 'index' method for 'Offers' is blocked for everybody with this implementation...
         if(isset($user))
         {
             if($user['role'] === 0 || $user['role'] === 1)
@@ -26,15 +27,10 @@ class OffersController extends AppController
                     return true;
                 }
 
-                if(in_array($this->request->action, ['add']))
+                if(in_array($this->request->action, ['add', 'view']))
                 {
                     return true;
                 }
-            }
-            
-            if(in_array($this->request->action, ['view', 'index']))
-            {
-                return true;
             }
         }
 
@@ -99,7 +95,7 @@ class OffersController extends AppController
 
         if((int)$items->count() === 0)
         {
-            $this->Flash->warning('You can\'t add an offer yet because there is not any item created.');
+            $this->Flash->warning('You can\'t add an offer yet because there is no any item created.');
             $this->redirect($this->referer());
         }
 

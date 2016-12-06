@@ -1,12 +1,17 @@
+<?php if((int)$this->request->session()->read('Auth.User.role') === 0): ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Post'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Categories'), ['controller' => 'Categories', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Category'), ['controller' => 'Categories', 'action' => 'add']) ?></li>
     </ul>
 </nav>
-<div class="posts index large-9 medium-8 columns content">
+<?php endif; ?>
+
+<?php if((int)$this->request->session()->read('Auth.User.role') === 0): ?>
+<div class="offers index large-9 medium-8 columns content">
+<?php else: ?>
+<div class="posts index columns content">
+<?php endif; ?>
     <h3><?= __('Posts') ?></h3>
     <table cellpadding="0" cellspacing="0">
         <thead>
@@ -32,7 +37,7 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    <div class="paginator">
+    <div class="paginator text-center">
         <ul class="pagination">
             <?= $this->Paginator->prev('< ' . __('previous')) ?>
             <?= $this->Paginator->numbers() ?>

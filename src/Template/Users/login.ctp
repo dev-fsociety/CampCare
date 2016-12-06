@@ -46,7 +46,7 @@
       <h4 class="text-center">Pour les besoins de la démonstration:</h4> 
       <center>
         <div class="button-group-unstack">
-          <?= $this->Html->link(__('Organization'), ['controller' => 'Users', 'action' => 'subscribeOrganisation'], ['class' => 'button']) ?>
+          <?= $this->Html->link(__('Organization'), ['controller' => 'Users', 'action' => 'subscribeOrganization'], ['class' => 'button']) ?>
         </div>
       </center>
     </div>
