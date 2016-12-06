@@ -1,17 +1,17 @@
-<?php if((int)$this->request->session()->read('Auth.User.role') === 0): ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Post'), ['action' => 'add']) ?></li>
+    <ul class="side-nav text-center">
+        <?php if((int)$this->request->session()->read('Auth.User.role') === 0): ?>
+            <?= __('Actions :') ?>
+            <li><?= $this->Html->link(__('New Post'), ['action' => 'add']) ?></li>
+        <?php endif; ?>
+        <?= __('Posts per category :') ?>
+        <?php foreach ($categories as $category): ?>
+            <?= $this->Html->link(__($category->name), ['action' => 'byCategory', $category->id], ['class' => 'secondary button expanded']) ?>
+        <?php endforeach; ?>
     </ul>
 </nav>
-<?php endif; ?>
 
-<?php if((int)$this->request->session()->read('Auth.User.role') === 0): ?>
 <div class="offers index large-9 medium-8 columns content">
-<?php else: ?>
-<div class="posts index columns content">
-<?php endif; ?>
     <h3><?= __('Posts') ?></h3>
     <table cellpadding="0" cellspacing="0">
         <thead>

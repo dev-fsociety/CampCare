@@ -78,7 +78,7 @@
 									' . $this->Html->image("icons/posts.svg", array("style" => "width: 2em; height: 2em;")) . '
 						</div>
 						<div class="column large-10 medium-10 small-10 text-center">
-								&nbsp; Read the '.count($category->posts).' posts concerning this topic
+								&nbsp; Read '.count($category->posts).' posts concerning this topic
 						</div>
 					</div>',
 					[

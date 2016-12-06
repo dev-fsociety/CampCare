@@ -32,7 +32,7 @@ class PostsController extends AppController
                 }
             }
             
-            if(in_array($this->request->action, ['view', 'index']))
+            if(in_array($this->request->action, ['view', 'index', 'byCategory']))
             {
                 return true;
             }
@@ -51,9 +51,12 @@ class PostsController extends AppController
         $this->paginate = [
             'contain' => ['Categories']
         ];
+
         $posts = $this->paginate($this->Posts);
 
-        $this->set(compact('posts'));
+        $categories = $this->Posts->Categories->find()->all();
+
+        $this->set(compact('posts', 'categories'));
         $this->set('_serialize', ['posts']);
     }
 
@@ -74,7 +77,8 @@ class PostsController extends AppController
         $this->set('_serialize', ['post']);
     }
 
-    public function byCategory($category_id) {
+    public function byCategory($category_id)
+    {
         $posts = $this->Posts->find()->where(['category_id' => $category_id]);
         $category = $this->Posts->Categories->get($category_id);
 
