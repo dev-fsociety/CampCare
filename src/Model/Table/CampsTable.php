@@ -37,11 +37,11 @@ class CampsTable extends Table
         $this->primaryKey('id');
 
         $this->hasMany('Categories', [
-            'foreignKey' => 'camp_id'
+            'foreignKey' => 'camp_id', 'dependent' => 'true', 'cascadeCallbacks' => 'true'
         ]);
 
         $this->hasMany('Users', [
-          'foreignKey' => 'camp_id'
+          'foreignKey' => 'camp_id', 'dependent' => 'true', 'cascadeCallbacks' => 'true'
         ]);
     }
 
@@ -63,11 +63,27 @@ class CampsTable extends Table
 
         $validator
             ->numeric('lng')
+            ->add('lng', 'valueMin', [
+                'rule' => ['comparison', '>=', -180],
+                'message' => 'The longitude has to be greater than -180° !'
+            ])
+            ->add('lng', 'valueMax', [
+                'rule' => ['comparison', '<=', 180],
+                'message' => 'The longitude has to be lesser than +180° !'
+            ])
             ->requirePresence('lng', 'create')
             ->notEmpty('lng');
 
         $validator
             ->numeric('lat')
+            ->add('lat', 'valueMin', [
+                'rule' => ['comparison', '>=', -90],
+                'message' => 'The latitude has to be greater than -90° !'
+            ])
+            ->add('lat', 'valueMax', [
+                'rule' => ['comparison', '<=', 90],
+                'message' => 'The latitude has to be lesser than +90° !'
+            ])
             ->requirePresence('lat', 'create')
             ->notEmpty('lat');
 

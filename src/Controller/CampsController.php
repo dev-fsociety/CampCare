@@ -151,6 +151,6 @@ class CampsController extends AppController
             $this->Flash->error(__('The camp could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['controller' => 'Users', 'action' => 'index']);
+        return $this->redirect(['controller' => 'Users', 'action' => 'logout']);
     }
 }

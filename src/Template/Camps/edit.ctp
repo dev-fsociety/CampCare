@@ -4,7 +4,7 @@
         <li><?= $this->Form->postLink(
                 __('Delete'),
                 ['action' => 'delete', $camp->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $camp->id)]
+                ['confirm' => __('Are you REALLY SURE you want to delete the camp # {0} ? Each content linked to it will be deleted as well...', $camp->name)]
             )
         ?></li>
     </ul>
@@ -15,8 +15,8 @@
         <h4><?= __('Edit Camp') ?></h4>
         <?php
             echo $this->Form->input('name');
-            echo $this->Form->input('lng');
-            echo $this->Form->input('lat');
+            echo $this->Form->input('lng', ['type' => 'number']);
+            echo $this->Form->input('lat', ['type' => 'number']);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit'), ['class' => 'button expanded']) ?>

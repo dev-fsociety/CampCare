@@ -13,8 +13,7 @@ Site de l'équipe /dev/fsociety pour la [Nuit de l'Info édition 2016](http://ww
 Si vous avec besoin de plus d'informations, c'est tout expliqué là : [http://book.cakephp.org/3.0/en/quickstart.html](http://book.cakephp.org/3.0/en/quickstart.html)  
   
   
-### TO DO !  
+### Note de fin de projet
   
-Eh oui, même si la Nuit s'est terminée, les projets eux ne le sont jamais !  
-Nous pensons être arrivés à une version qui fonctionne plus ou moins bien, mais il reste encore (au moins) un point à implémenter:  
---> La suppression des données liées à d'autres qui disparaîtraient (par exemple: la disparition d'une catégorie doit entraîner la suppression de toutes ses catégories filles, ainsi que les items contenus dans chacune d'entre elles...)
+Bien qu'une année de plus la Nuit s'est terminée, les projets eux ne le sont jamais vraiment !  
+Nous pensons être arrivés à une version qui fonctionne à peu près comme nous l'espérions ! Sauf bug majeur rencontré, nous pouvons dire que le projet est _terminé_ !

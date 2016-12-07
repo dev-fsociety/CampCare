@@ -7,7 +7,7 @@
             echo $this->Form->input('category_id', ['options' => $categories]);
             echo $this->Form->input('description');
             echo $this->Form->hidden('hot', ['value' => 0, 'type' => 'number']);
-            echo $this->Form->input('cooldown', ['label' => 'Cooldown (in days)']);
+            echo $this->Form->input('cooldown', ['label' => 'Cooldown (in days)', 'type' => 'number']);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit'), ['class' => 'button expanded']) ?>

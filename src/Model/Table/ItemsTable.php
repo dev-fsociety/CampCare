@@ -43,10 +43,10 @@ class ItemsTable extends Table
             'joinType' => 'INNER'
         ]);
         $this->hasMany('Needs', [
-            'foreignKey' => 'item_id'
+            'foreignKey' => 'item_id', 'dependent' => 'true', 'cascadeCallbacks' => 'true'
         ]);
         $this->hasMany('Offers', [
-            'foreignKey' => 'item_id'
+            'foreignKey' => 'item_id', 'dependent' => 'true', 'cascadeCallbacks' => 'true'
         ]);
     }
 

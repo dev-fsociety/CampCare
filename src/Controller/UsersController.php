@@ -4,6 +4,7 @@ namespace App\Controller;
 use Cake\Event\Event;
 use App\Controller\AppController;
 use Cake\Datasource\ConnectionManager;
+use Cake\ORM\TableRegistry;
 
 /**
  * Users Controller
@@ -156,6 +157,7 @@ class UsersController extends AppController
         $camps = $this->Users->Camps->find('list');
 
         $this->set(compact('user','camps'));
+        $this->set('_serialize', ['user']);
     }
 
     public function subscribeDonor()
@@ -209,7 +211,7 @@ class UsersController extends AppController
 
             $user->role = 0;
 
-            if($user->firstname == null || $user->email == null || $user->phone == null)
+            if($user->name == null || $user->email == null || $user->phone == null)
             {
                 $this->Flash->error(__('The user could not be saved. You\'ve forgotten to fill in some fields.'));
                 return $this->redirect(['action' => 'subscribeOrganization']);
@@ -381,21 +383,36 @@ class UsersController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
-        if ($this->Users->delete($user)) {
-            $this->Flash->success(__('The user has been deleted.'));
-        } else {
-            $this->Flash->error(__('The user could not be deleted. Please, try again.'));
+
+        // Tests if the user being deleted is the last organization linked to its camp
+        if((int)$this->Users->find()->where(['camp_id' => $user['camp_id'], 'role' => 0])->count() === 1)
+        {
+            if($this->Users->Camps->delete($this->Users->Camps->get($user['camp_id'])))
+            {
+                $this->Flash->success(__('Your camp has been deleted because you were the last user linked to it. Now your account is no longer supposed to exist...'));
+            }
+
+            else
+            {
+                $this->Flash->error(__('You\'re the last user linked to your camp, and its deletion could not be executed as it should be. So your account has not been deleted neither.'));
+                return $this->redirect(['action' => 'index']);
+            }
         }
 
-        return $this->redirect(['action' => 'index']);
-    }
+        else
+        {
+            if($this->Users->delete($user))
+            {
+                $this->Flash->success(__('Your account has been deleted.'));
+            }
 
-    public function profile($id = null)
-    {
-        $user = $this->Users->get($id, [
-            'contain' => ['Needs', 'Offers']
-        ]);
+            else
+            {
+                $this->Flash->error(__('Your account could not be deleted. Please, try again.'));
+                return $this->redirect(['action' => 'index']);
+            }
+        }
 
-        $this->set('user', $user);
+        return $this->redirect(['action' => 'logout']);
     }
 }

@@ -16,11 +16,11 @@
         <?php
             echo $this->Form->input('username');
             echo $this->Form->input('password');
-            echo $this->Form->input('firstname', ['required' => 'false', 'type' => 'hidden']);
-            echo $this->Form->input('name', ['required' => 'false', 'type' => 'hidden']);
-            echo $this->Form->input('email', ['required' => 'false', 'type' => 'hidden']);
-            echo $this->Form->input('phone', ['required' => 'false', 'type' => 'hidden']);
-            echo $this->Form->input('description', ['required' => 'false', 'type' => 'hidden']);
+            echo $this->Form->input('firstname', ['required' => false, 'type' => 'hidden']);
+            echo $this->Form->input('name', ['required' => false, 'type' => 'hidden']);
+            echo $this->Form->input('email', ['required' => false, 'type' => 'hidden']);
+            echo $this->Form->input('phone', ['required' => false, 'type' => 'hidden']);
+            echo $this->Form->input('description', ['required' => false, 'type' => 'hidden']);
             echo $this->Form->input('camp_id', ['options' => $camps]);
         ?>
     </fieldset>

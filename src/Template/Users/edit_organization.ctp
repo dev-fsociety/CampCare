@@ -4,7 +4,7 @@
         <li><?= $this->Form->postLink(
                 __('Delete'),
                 ['action' => 'delete', $user->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]
+                ['confirm' => __('Are you REALLY SURE you want to delete the organization {0} ? Each users and content linked with it will be deleted as well...', $user->name)]
             )
         ?></li>
     </ul>
@@ -16,11 +16,11 @@
         <?php
             echo $this->Form->input('username');
             echo $this->Form->input('password');
-            echo $this->Form->input('firstname',  ['required'=>false]);
+            echo $this->Form->input('firstname',  ['required' => false, 'type' => 'hidden']);
             echo $this->Form->input('name');
-            echo $this->Form->input('email', ['required'=>false]);
-            echo $this->Form->input('phone', ['required'=>false]);
-            echo $this->Form->input('description', ['required'=>false]);
+            echo $this->Form->input('email');
+            echo $this->Form->input('phone');
+            echo $this->Form->input('description', ['required' => false]);
         ?>
     </fieldset>
       <?= $this->Form->button(__('Submit') , ['class' => 'button expanded'])?>

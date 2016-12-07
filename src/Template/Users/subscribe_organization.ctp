@@ -20,11 +20,11 @@
             echo $this->Html->link('Please, take one moment to register it.', ['controller' => 'Camps', 'action' => 'add'], ['id' => 'campLink']);
             echo $this->Form->input('username');
             echo $this->Form->input('password');
-            echo $this->Form->input('firstname', ['required'=>false]);
+            echo $this->Form->input('firstname', ['required' => false, 'type' => 'hidden']);
             echo $this->Form->input('name');
-            echo $this->Form->input('email', ['required'=>false]);
-            echo $this->Form->input('phone', ['required'=>false]);
-            echo $this->Form->input('description', ['required'=>false]);
+            echo $this->Form->input('email');
+            echo $this->Form->input('phone');
+            echo $this->Form->input('description', ['required' => false]);
         ?>
     </fieldset>
     <?= $this->Form->submit(__('Submit'), ['class' => 'button']) ?>
