@@ -14,7 +14,7 @@
     <fieldset>
         <legend><?= __('Edit Offer') ?></legend>
         <?php
-            echo $this->Form->input('user_id', ['options' => $users]);
+            echo $this->Form->input('user_id', ['type' => 'hidden']);
             echo $this->Form->input('item_id', ['options' => $items]);
             echo $this->Form->input('event_date');
         ?>

@@ -77,12 +77,18 @@ class CampsController extends AppController
         //     return $exp->Exists($sub_q);
         //     }
         // );
-        $items = ConnectionManager::get('default')->execute('SELECT * FROM items as a WHERE EXISTS
-          (SELECT b.id FROM categories as b WHERE b.camp_id = '. $id . ') ORDER BY a.hot DESC')->fetchAll('assoc');
+
+        $categories = $this->Camps->Categories->find()->all();
+
+        $items = ConnectionManager::get('default')->execute('SELECT * FROM items as a ORDER BY a.hot DESC')->fetchAll('assoc');
+
+        $offers = ConnectionManager::get('default')->execute('SELECT offers.* FROM users, offers WHERE users.camp_id = '. $id .' AND offers.user_id = users.id')->fetchAll('assoc');
 
         $refugee_count = $this->Camps->Users->find()->where(['camp_id' => $id, 'role' => 2])->count();
 
-        $this->set(compact('camp', 'refugee_count','items'));
+        $donor_count = $this->Camps->Users->find()->where(['camp_id' => $id, 'role' => 1])->count();
+
+        $this->set(compact('camp', 'refugee_count', 'donor_count', 'categories', 'items', 'offers'));
         $this->set('_serialize', ['camp']);
     }
 

@@ -175,7 +175,7 @@ class ItemsController extends AppController
       $r = $this->Items->Offers->find()->where(['item_id' => $id])->toArray() ;
       if( empty($r) ){
         //No result we have to create the needs
-        // add a needs for the item indentified by $id
+        // add a needs for the item identified by $id
         return $this->redirect(['controller' => 'needs', 'action' => 'add', $id]);
       }else{
         //redirect the user to the needs view

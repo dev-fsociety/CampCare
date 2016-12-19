@@ -6,7 +6,8 @@
 
         <hr>
 
-        <p>Nombre de réfugiés : <?= $refugee_count ?></p>
+        <p>Number of refugees : <?= $refugee_count ?></p>
+        <p>Number of donors : <?= $donor_count ?></p>
 
         <p>Localisation : lng : <?= $this->Number->format($camp->lng) ?>, lat : <?= $this->Number->format($camp->lat) ?></p>
 
@@ -23,7 +24,7 @@
     <div class="large-9 columns">
         <h4> Categories for this camp </h4>
         <ul>
-            <?php foreach($camp->categories as $category): ?>
+            <?php foreach($categories as $category): ?>
                 <li> <?= h($category->name) ?> <?= $this->Form->postLink(__('<i class="fi-x-circle"></i> '), ['controller' => 'Categories', 'action' => 'delete', $category->id], ['confirm' => __('Are you sure you want to delete : {0}?', $category->name), 'escape' => false]) ?>
                   <?php echo $this->Html->link(__(' <i class="fi-pencil"></i>'),
                           [
@@ -73,6 +74,35 @@
       ?>
        </ul>
 
+      <h4> Offers for this camp </h4>
+        <ul>
+          <?php
+          foreach ($offers as $key => $offer) {
+            echo '<li>';
+            foreach ($items as $item) {
+              if ($item['id'] === $offer['item_id']) {
+                echo $item['name'];
+                break;  
+              }
+            }
+            echo '  ';
+            echo ' date : ' . $offer['event_date'];
+            echo '  ';
+            echo $this->Form->postLink(__('<i class="fi-x-circle"></i> '), ['controller' => 'Offers', 'action' => 'delete', $offer['id']], ['confirm' => __('Are you sure you want to delete : {0}?', $offer['id']), 'escape' => false]);
+          echo $this->Html->link(__(' <i class="fi-pencil"></i>'),
+          [
+            'controller' => 'Offers',
+            'action' => 'edit',
+            $offer['id']
+          ],
+          [
+            'escape' => false
+          ]
+        );
+        echo '</li>';
+      }
+       ?>
+       </ul>
 
     </div>
     <div class="large-3 columns">

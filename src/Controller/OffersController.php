@@ -20,7 +20,12 @@ class OffersController extends AppController
         // 'index' method for 'Offers' is blocked for everybody with this implementation...
         if(isset($user))
         {
-            if($user['role'] === 0 || $user['role'] === 1)
+            if($user['role'] === 0)
+            {
+                return true;
+            }
+
+            elseif($user['role'] === 1)
             {
                 if(in_array($this->request->action, ['edit', 'delete']) && $this->isOwnedBy($this->request->params, $user))
                 {
@@ -127,9 +132,8 @@ class OffersController extends AppController
             }
         }
 
-        $users = $this->Offers->Users->find('list');
         $items = $this->Offers->Items->find('list');
-        $this->set(compact('offer', 'users', 'items'));
+        $this->set(compact('offer', 'items'));
         $this->set('_serialize', ['offer']);
     }
 
