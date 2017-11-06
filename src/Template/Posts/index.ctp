@@ -1,12 +1,17 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Post'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Categories'), ['controller' => 'Categories', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Category'), ['controller' => 'Categories', 'action' => 'add']) ?></li>
+    <ul class="side-nav text-center">
+        <?php if((int)$this->request->session()->read('Auth.User.role') === 0): ?>
+            <?= __('Actions :') ?>
+            <li><?= $this->Html->link(__('New Post'), ['action' => 'add']) ?></li>
+        <?php endif; ?>
+        <?= __('Posts per category :') ?>
+        <?php foreach ($categories as $category): ?>
+            <?= $this->Html->link(__($category->name), ['action' => 'byCategory', $category->id], ['class' => 'secondary button expanded']) ?>
+        <?php endforeach; ?>
     </ul>
 </nav>
-<div class="posts index large-9 medium-8 columns content">
+
+<div class="offers index large-9 medium-8 columns content">
     <h3><?= __('Posts') ?></h3>
     <table cellpadding="0" cellspacing="0">
         <thead>
@@ -32,7 +37,7 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    <div class="paginator">
+    <div class="paginator text-center">
         <ul class="pagination">
             <?= $this->Paginator->prev('< ' . __('previous')) ?>
             <?= $this->Paginator->numbers() ?>

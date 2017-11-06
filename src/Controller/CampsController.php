@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use Cake\Event\Event;
 use App\Controller\AppController;
 use Cake\Datasource\ConnectionManager;
 /**
@@ -10,6 +11,33 @@ use Cake\Datasource\ConnectionManager;
  */
 class CampsController extends AppController
 {
+    public function isOwnedBy($params, $user)
+    {
+        return ConnectionManager::get('default')->execute('SELECT * FROM users WHERE (users.camp_id = ' . $params['pass'][0] . ' AND users.id = ' . $user['id'] . ')')->count();
+    }
+
+    public function isAuthorized($user)
+    {
+        if(isset($user) && $user['role'] === 0)
+        {
+            // This can be changed. With this implementation, an organization can't list the camps, nor view, edit, or delete another one.
+            if(in_array($this->request->action, ['index']) || (in_array($this->request->action, ['view', 'edit', 'delete']) && !$this->isOwnedBy($this->request->params, $user)))
+            {
+                $this->Flash->warning('You can\'t perform this operation with this implementation. Contact your website manager in order to change that.');
+                return $this->redirect(['controller' => 'Users', 'action' => 'index']);
+            }
+
+            return true;
+        }
+
+        return parent::isAuthorized($user);
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['add']);
+    }
 
     /**
      * Index method
@@ -49,12 +77,18 @@ class CampsController extends AppController
         //     return $exp->Exists($sub_q);
         //     }
         // );
-        $items = ConnectionManager::get('default')->execute('SELECT * FROM items as a WHERE EXISTS
-          (SELECT b.id FROM categories as b WHERE b.camp_id = '. $id . ') ORDER BY a.hot DESC')->fetchAll('assoc');
+
+        $categories = $this->Camps->Categories->find()->all();
+
+        $items = ConnectionManager::get('default')->execute('SELECT * FROM items as a ORDER BY a.hot DESC')->fetchAll('assoc');
+
+        $offers = ConnectionManager::get('default')->execute('SELECT offers.* FROM users, offers WHERE users.camp_id = '. $id .' AND offers.user_id = users.id')->fetchAll('assoc');
 
         $refugee_count = $this->Camps->Users->find()->where(['camp_id' => $id, 'role' => 2])->count();
 
-        $this->set(compact('camp', 'refugee_count','items'));
+        $donor_count = $this->Camps->Users->find()->where(['camp_id' => $id, 'role' => 1])->count();
+
+        $this->set(compact('camp', 'refugee_count', 'donor_count', 'categories', 'items', 'offers'));
         $this->set('_serialize', ['camp']);
     }
 
@@ -71,7 +105,7 @@ class CampsController extends AppController
             if ($this->Camps->save($camp)) {
                 $this->Flash->success(__('The camp has been saved.'));
 
-                return $this->redirect(['controller' => 'Users', 'action' => 'subscribe_organisation']);
+                return $this->redirect(['controller' => 'Users', 'action' => 'subscribe_organization']);
             } else {
                 $this->Flash->error(__('The camp could not be saved. Please, try again.'));
             }
@@ -123,17 +157,6 @@ class CampsController extends AppController
             $this->Flash->error(__('The camp could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
-    }
-
-    public function isAuthorized($user)
-    {
-        return isset($user) && $user['role'] === 0;
-    }
-
-    public function initialize()
-    {
-        parent::initialize();
-        $this->Auth->allow(['action' => 'add']);
+        return $this->redirect(['controller' => 'Users', 'action' => 'logout']);
     }
 }

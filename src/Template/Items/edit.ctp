@@ -1,6 +1,6 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
+        <?= __('Actions') ?>
         <li><?= $this->Form->postLink(
                 __('Delete'),
                 ['action' => 'delete', $item->id],
@@ -17,8 +17,8 @@
             echo $this->Form->input('name');
             echo $this->Form->input('category_id', ['options' => $categories]);
             echo $this->Form->input('description');
-            echo $this->Form->input('hot');
-            echo $this->Form->input('cooldown');
+            echo $this->Form->input('hot', ['type' => 'number']);
+            echo $this->Form->input('cooldown', ['type' => 'number']);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit'),['class' => 'button expanded']) ?>

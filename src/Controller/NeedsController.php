@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Datasource\ConnectionManager;
 use Cake\I18n\Time;
+use Cake\Event\Event;
 
 /**
  * Needs Controller
@@ -12,6 +13,11 @@ use Cake\I18n\Time;
  */
 class NeedsController extends AppController
 {
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['add']);
+    }
 
     /**
      * Index method

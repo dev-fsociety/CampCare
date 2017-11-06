@@ -49,13 +49,13 @@ class CategoriesTable extends Table
             'joinType' => 'INNER'
         ]);
         $this->hasMany('Categories', [
-            'foreignKey' => 'category_id'
+            'foreignKey' => 'category_id', 'dependent' => 'true', 'cascadeCallbacks' => 'true'
         ]);
         $this->hasMany('Items', [
-            'foreignKey' => 'category_id'
+            'foreignKey' => 'category_id', 'dependent' => 'true', 'cascadeCallbacks' => 'true'
         ]);
         $this->hasMany('Posts', [
-            'foreignKey' => 'category_id'
+            'foreignKey' => 'category_id', 'dependent' => 'true', 'cascadeCallbacks' => 'true'
         ]);
     }
 

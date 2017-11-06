@@ -10,6 +10,36 @@ use App\Controller\AppController;
  */
 class PostsController extends AppController
 {
+    public function isOwnedBy($params, $user)
+    {
+        return $this->Posts->find()->where(['id' => $params['pass'][0]])->first()->user_id === (int)$user['id'];
+    }
+
+    public function isAuthorized($user)
+    {
+        if(isset($user))
+        {
+            if($user['role'] === 0)
+            {
+                if(in_array($this->request->action, ['edit', 'delete']) && $this->isOwnedBy($this->request->params, $user))
+                {
+                    return true;
+                }
+
+                if(in_array($this->request->action, ['add']))
+                {
+                    return true;
+                }
+            }
+            
+            if(in_array($this->request->action, ['view', 'index', 'byCategory']))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Index method
@@ -21,9 +51,12 @@ class PostsController extends AppController
         $this->paginate = [
             'contain' => ['Categories']
         ];
+
         $posts = $this->paginate($this->Posts);
 
-        $this->set(compact('posts'));
+        $categories = $this->Posts->Categories->find()->all();
+
+        $this->set(compact('posts', 'categories'));
         $this->set('_serialize', ['posts']);
     }
 
@@ -44,7 +77,8 @@ class PostsController extends AppController
         $this->set('_serialize', ['post']);
     }
 
-    public function byCategory($category_id) {
+    public function byCategory($category_id)
+    {
         $posts = $this->Posts->find()->where(['category_id' => $category_id]);
         $category = $this->Posts->Categories->get($category_id);
 
@@ -121,36 +155,5 @@ class PostsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
-    }
-
-    public function isAuthorized($user)
-    {
-        if(isset($user))
-        {
-            if($user['role'] === 0 || $user['role'] === 1)
-            {
-                if(in_array($this->request->action, ['edit', 'delete']) && (int)$this->request->params['pass'][0] === $user['id'])
-                {
-                    return true;
-                }
-
-                if(in_array($this->request->action, ['add']))
-                {
-                    return true;
-                }
-            }
-            
-            if(in_array($this->request->action, ['view', 'index']))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public function initialize()
-    {
-        parent::initialize();
     }
 }

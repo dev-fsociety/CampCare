@@ -42,10 +42,10 @@ class UsersTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->hasMany('Needs', [
-            'foreignKey' => 'user_id'
+            'foreignKey' => 'user_id', 'dependent' => 'true', 'cascadeCallbacks' => 'true'
         ]);
         $this->hasMany('Offers', [
-            'foreignKey' => 'user_id'
+            'foreignKey' => 'user_id', 'dependent' => 'true', 'cascadeCallbacks' => 'true'
         ]);
 
         $this->belongsTo('Camps', [
@@ -120,7 +120,6 @@ class UsersTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->isUnique(['username']));
-        $rules->add($rules->isUnique(['email']));
 
         return $rules;
     }

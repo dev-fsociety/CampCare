@@ -5,13 +5,13 @@
 	<?php $file = WWW_ROOT . 'img' . DS . 'icons' . DS . strtolower($category->name).'.svg';?>
 	<?php $sclass = "cat-icon-mask cat-color" . (string)($category->id-1)%4 ?>
 	<?php $caticon = 'icons/'.strtolower($category->name).'.svg'?>
-    <?php if (file_exists($file)==false): ?>
+	<?php if (file_exists($file)==false): ?>
 		<?php $caticon = 'icons/unknown.svg'?>
-    <?php endif; ?>
+	<?php endif; ?>
 	<div class="column text-center">
 		<?= $this->Html->link(
 			$this->Html->image($caticon, array('class' => $sclass)).
-			'<h4 class="cat-text">' . $category->name . '</h4>',			[
+			'<h4 class="cat-text">' . $category->name . '</h4>', [
 				'controller' => 'categories',
 				'action' => 'view',
 				$category->id

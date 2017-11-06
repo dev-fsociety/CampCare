@@ -1,4 +1,4 @@
-# FSite
+# CampCare
 
 Site de l'équipe /dev/fsociety pour la [Nuit de l'Info édition 2016](http://www.nuitdelinfo.com/)
 
@@ -10,4 +10,10 @@ Site de l'équipe /dev/fsociety pour la [Nuit de l'Info édition 2016](http://ww
 4. Une fois installé, il vous restera la partie configuration, en gros il faut éditer le fichier **config/app.php** et renseigner les informations de connexion à la BDD. Si vous avez des problèmes à ce niveau là, votre chef d'équipe est là pour ça !
 5. Et maintenant CODEZ !
 
-Si vous avec besoin de plus d'informations, c'est tout expliqué là : [http://book.cakephp.org/3.0/en/quickstart.html](http://book.cakephp.org/3.0/en/quickstart.html)
+Si vous avec besoin de plus d'informations, c'est tout expliqué là : [http://book.cakephp.org/3.0/en/quickstart.html](http://book.cakephp.org/3.0/en/quickstart.html)  
+  
+  
+### Note de fin de projet
+  
+Bien qu'une année de plus la Nuit s'est terminée, les projets eux ne le sont jamais vraiment !  
+Nous pensons être arrivés à une version qui fonctionne à peu près comme nous l'espérions ! Sauf bug majeur rencontré, nous pouvons dire que le projet est _terminé_ !

@@ -1,7 +1,6 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List Camps'), ['action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Subscribe organization'), ['controller' => 'Users', 'action' => 'subscribe_organization']) ?></li>
     </ul>
 </nav>
 <div class="camps form large-9 medium-8 columns content">
@@ -10,8 +9,8 @@
         <legend><?= __('Add Camp') ?></legend>
         <?php
             echo $this->Form->input('name');
-            echo $this->Form->input('lng');
-            echo $this->Form->input('lat');
+            echo $this->Form->input('lng', ['type' => 'number']);
+            echo $this->Form->input('lat', ['type' => 'number']);
         ?>
     </fieldset>
     <?= $this->Form->submit(__('Submit'), ['class' => 'button']) ?>

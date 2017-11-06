@@ -3,6 +3,8 @@ namespace App\Controller;
 
 use Cake\Event\Event;
 use App\Controller\AppController;
+use Cake\Datasource\ConnectionManager;
+use Cake\ORM\TableRegistry;
 
 /**
  * Users Controller
@@ -11,6 +13,78 @@ use App\Controller\AppController;
  */
 class UsersController extends AppController
 {
+    public function login()
+    {
+        if($this->request->session()->read('Auth.User.id') != null)
+        {
+            $this->Flash->warning('You are already logged in.');
+            return $this->redirect(['action' => 'index']);
+        }
+
+        if($this->request->is('post'))
+        {
+            $user = $this->Auth->identify();
+
+            if($user)
+            {
+                $this->Auth->setUser($user);
+                $this->Flash->success('Your are now logged in.');
+                return $this->redirect($this->Auth->redirectUrl());
+            }
+
+            $this->Flash->error('Your username or password is incorrect.');
+        }
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+
+        $this->Auth->allow(['logout', 'subscribeRefugee', 'subscribeDonor', /* TO REMOVE WHEN LEAVING PRODUCTION --> */ 'subscribeOrganization']);
+    }
+
+    public function isAuthorized($user)
+    {
+        if(isset($user))
+        {
+            if(in_array($this->request->action, ['editOrganization', 'editDonor', 'editRefugee', 'delete', 'view']))
+            {
+                if((int)$this->request->params['pass'][0] === $user['id'])
+                {
+                    return true;
+                }
+
+                // Here we always block the user, 'cause there is no admin, nobody could alter, delete nor view a user if it's not his own
+                else
+                {
+                    $this->Flash->warning('You can\'t perform any operation on an user that is not yours.');
+                    return false;
+                }
+            }
+
+            else if(in_array($this->request->action, ['index']))
+            {
+                return true;
+            }
+        }
+
+        return parent::isAuthorized($user);
+    }
+
+    public function logout()
+    {
+        if($this->request->session()->read('Auth.User.id') != null)
+        {
+            $this->Flash->success('You are now logged out.');
+            return $this->redirect($this->Auth->logout());
+        }
+
+        else
+        {
+            $this->Flash->warning('You can\'t logout because you\'re not connected.');
+            return $this->redirect('/');
+        }
+    }
 
     /**
      * Index method
@@ -20,12 +94,19 @@ class UsersController extends AppController
     public function index()
     {
         $user = $this->Auth->user();
+
         if($user['role'] == 0)
+        {
             return $this->redirect(['controller' => 'Camps', 'action' => 'view', $user['camp_id']]);
+        }
         else if($user['role'] == 1)
-            return $this->redirect(['controller' => 'Users', 'action' => 'view', $user['id']]);
+        {
+            return $this->redirect(['action' => 'view', $user['id']]);
+        }
         else if($user['role'] == 2)
+        {
             return $this->redirect(['controller' => 'Categories', 'action' => 'index']);
+        }
     }
 
     /**
@@ -51,19 +132,21 @@ class UsersController extends AppController
      */
     public function subscribeRefugee()
     {
+        if($this->request->session()->read('Auth.User.id') != null)
+        {
+            $this->Flash->warning('You are already logged in, thus you can\'t create a new user directly. Please use the disconnection button to log out.');
+            return $this->redirect($this->referer());
+        }
+
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->data);
 
             $user->role = 2;
-            $user->firstname = null;
-            $user->name = null;
-            $user->email = null;
-            $user->phone = null;
 
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
-
+                $this->Auth->setUser($user);
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The user could not be saved. Please, try again.'));
@@ -74,10 +157,17 @@ class UsersController extends AppController
         $camps = $this->Users->Camps->find('list');
 
         $this->set(compact('user','camps'));
+        $this->set('_serialize', ['user']);
     }
 
     public function subscribeDonor()
     {
+        if($this->request->session()->read('Auth.User.id') != null)
+        {
+            $this->Flash->warning('You are already logged in, thus you can\'t create a new user directly. Please use the disconnection button to log out.');
+            return $this->redirect($this->referer());
+        }
+
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->data);
@@ -92,7 +182,7 @@ class UsersController extends AppController
 
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
-
+                $this->Auth->setUser($user);
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The user could not be saved. Please, try again.'));
@@ -107,23 +197,29 @@ class UsersController extends AppController
         $this->set('_serialize', ['user']);
     }
 
-    public function subscribeOrganisation()
+    public function subscribeOrganization()
     {
+        if($this->request->session()->read('Auth.User.id') != null)
+        {
+            $this->Flash->warning('You are already logged in, thus you can\'t create a new user directly. Please use the disconnection button to log out.');
+            return $this->redirect($this->referer());
+        }
+
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->data);
 
             $user->role = 0;
 
-            if($user->firstname == null || $user->email == null || $user->phone == null)
+            if($user->name == null || $user->email == null || $user->phone == null)
             {
                 $this->Flash->error(__('The user could not be saved. You\'ve forgotten to fill in some fields.'));
-                return $this->redirect(['action' => 'subscribeOrganisation']);
+                return $this->redirect(['action' => 'subscribeOrganization']);
             }
 
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
-
+                $this->Auth->setUser($user);
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The user could not be saved. Please, try again.'));
@@ -156,7 +252,7 @@ class UsersController extends AppController
         {
             if($user['role'] === 0)
             {
-                return $this->redirect(['action' => 'editOrganisation', $id]);
+                return $this->redirect(['action' => 'editOrganization', $id]);
             }
 
             if($user['role'] === 1)
@@ -180,9 +276,9 @@ class UsersController extends AppController
         }
 
         $user->role = 2;
+        $camps = $this->Users->Camps->find('list');
 
-        $this->set(compact('user'));
-        $this->set('_serialize', ['user']);
+        $this->set(compact('user','camps'));
     }
 
     public function editDonor($id = null)
@@ -195,7 +291,7 @@ class UsersController extends AppController
         {
             if($user['role'] === 0)
             {
-                return $this->redirect(['action' => 'editOrganisation', $id]);
+                return $this->redirect(['action' => 'editOrganization', $id]);
             }
 
             if($user['role'] === 2)
@@ -230,7 +326,7 @@ class UsersController extends AppController
         $this->set('_serialize', ['user']);
     }
 
-    public function editOrganisation($id = null)
+    public function editOrganization($id = null)
     {
         $user = $this->Users->get($id, [
             'contain' => []
@@ -257,7 +353,7 @@ class UsersController extends AppController
             if($user->firstname == null || $user->email == null || $user->phone == null)
             {
                 $this->Flash->error(__('The user could not be saved. You\'ve forgotten to fill in some fields.'));
-                return $this->redirect(['action' => 'editOrganisation', $id]);
+                return $this->redirect(['action' => 'editOrganization', $id]);
             }
 
             if ($this->Users->save($user)) {
@@ -287,84 +383,36 @@ class UsersController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
-        if ($this->Users->delete($user)) {
-            $this->Flash->success(__('The user has been deleted.'));
-        } else {
-            $this->Flash->error(__('The user could not be deleted. Please, try again.'));
-        }
 
-        return $this->redirect(['action' => 'index']);
-    }
-
-    public function login()
-    {
-        if($this->request->session()->read('Auth.User.id') != null)
+        // Tests if the user being deleted is the last organization linked to its camp
+        if((int)$this->Users->find()->where(['camp_id' => $user['camp_id'], 'role' => 0])->count() === 1)
         {
-            $this->Flash->warning('You are already logged in.');
-            return $this->redirect(['controller' => 'Categories', 'action' => 'index']);
-        }
-
-        if($this->request->is('post'))
-        {
-            $user = $this->Auth->identify();
-
-            if($user)
+            if($this->Users->Camps->delete($this->Users->Camps->get($user['camp_id'])))
             {
-                $this->Auth->setUser($user);
-                $this->Flash->success('Your are now logged in.');
-                return $this->redirect($this->Auth->redirectUrl());
+                $this->Flash->success(__('Your camp has been deleted because you were the last user linked to it. Now your account is no longer supposed to exist...'));
             }
 
-            $this->Flash->error('Your username or password is incorrect.');
-        }
-    }
-
-    public function initialize()
-    {
-        parent::initialize();
-
-        $this->Auth->allow(['logout', 'subscribeRefugee', 'subscribeDonor', 'subscribeOrganisation' /* TO REMOVE WHEN LEAVING PRODUCTION */]);
-    }
-
-    public function isAuthorized($user)
-    {
-        if(isset($user))
-        {
-            if(in_array($this->request->action, ['editOrganisation', 'editDonor', 'editRefugee', 'delete', 'view']))
+            else
             {
-                if((int)$this->request->params['pass'][0] === $user['id'])
-                {
-                    return true;
-                }
+                $this->Flash->error(__('You\'re the last user linked to your camp, and its deletion could not be executed as it should be. So your account has not been deleted neither.'));
+                return $this->redirect(['action' => 'index']);
             }
-            else if(in_array($this->request->action, ['index']))
-                return true;
-        }
-
-        return false;
-    }
-
-    public function logout()
-    {
-        if($this->request->session()->read('Auth.User.id') != null)
-        {
-            $this->Flash->success('You are now logged out.');
-            return $this->redirect($this->Auth->logout());
         }
 
         else
         {
-            $this->Flash->warning('You can\'t logout because you\'re not connected.');
-            return $this->redirect('/');
+            if($this->Users->delete($user))
+            {
+                $this->Flash->success(__('Your account has been deleted.'));
+            }
+
+            else
+            {
+                $this->Flash->error(__('Your account could not be deleted. Please, try again.'));
+                return $this->redirect(['action' => 'index']);
+            }
         }
-    }
 
-    public function profile($id = null)
-    {
-        $user = $this->Users->get($id, [
-            'contain' => ['Needs', 'Offers']
-        ]);
-
-        $this->set('user', $user);
+        return $this->redirect(['action' => 'logout']);
     }
 }
